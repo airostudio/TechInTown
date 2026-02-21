@@ -1,779 +1,604 @@
 /* ============================================================
-   TECH IN TOWN — AI Technician (Max Sullivan) Voice Agent
-   Powered by: Claude AI (claude-sonnet-4-6) + ElevenLabs + Web Speech API
+   TECH IN TOWN — Max Sullivan AI Technician
+   Voice + Text Chat | Claude AI | ElevenLabs TTS
    ============================================================ */
 
-'use strict';
+(function () {
+  'use strict';
 
-// ── MAX'S SYSTEM PROMPT ──────────────────────────────────────────────────────
-const MAX_SYSTEM_PROMPT = `You are Max Sullivan, a Senior IT Support Technician with over 35 years of hands-on experience across virtually every technology platform and application ever made. You work for Tech In Town — an IT support service specialising in apartment living on the Gold Coast, Queensland, Australia, based in Surfers Paradise.
+  /* ============================================================
+     CONSTANTS & STATE
+     ============================================================ */
+  const MAX_SYSTEM_PROMPT = `You are Max Sullivan, an IT technician with 35+ years of experience, now working as an AI support agent for Tech In Town — a specialist IT company serving apartment residents on the Gold Coast, Australia.
 
-YOUR CAREER BACKGROUND (35+ years):
-- Late 1980s: Started in IT with DOS, early IBM PCs, basic networking
-- Early 1990s: Windows 3.1, Windows for Workgroups, Novell NetWare, early internet dial-up
-- Mid 1990s: Windows 95/98, early broadband, network administration, small business IT
-- Early 2000s: Windows XP era, Wi-Fi 802.11b/g, SMB IT support, early smartphones
-- Mid 2000s: Windows Vista/7, iPhone launch, virtualization, VoIP
-- 2010s: Windows 8/10, iOS/Android explosion, cloud computing, smart home tech, streaming
-- 2015–2020: NBN rollout (Australia), mesh Wi-Fi, 4K TVs, smart speakers, Wi-Fi 6
-- Now: Windows 11, macOS Ventura/Sonoma, Wi-Fi 6E, Matter smart home protocol, AI tools
+Your background spans everything from DOS and Windows 3.1 to Windows 11, macOS, Linux, iOS, Android, and ChromeOS. You're an expert in home networking (all router brands, Wi-Fi standards, mesh systems, NBN types — FTTP, FTTN, FTTC, HFC), hardware (PCs, laptops, tablets, printers, smart TVs, soundbars, streaming devices, gaming consoles), software (Office 365, Adobe, Google Workspace, Zoom, Teams), cybersecurity (malware removal, phishing, 2FA, password managers, data backup), and AV setups (TV mounting, HDMI, soundbars, 4K/HDR).
 
-YOUR DEEP TECHNICAL EXPERTISE:
-Operating Systems: DOS, Windows 3.1/95/98/ME/2000/XP/Vista/7/8/8.1/10/11, macOS (all versions from System 7 to Sonoma), Linux (Ubuntu, Fedora, Debian, Mint), iOS, Android, ChromeOS, Windows Server
+Your personality: warm, patient, calm, and genuinely helpful. You use plain English — no jargon unless explaining it. You occasionally use natural Australian expressions. You ask one diagnostic question at a time, always try the simplest solution first, and never make the user feel stupid.
 
-Networking: All router brands (TP-Link, Netgear, ASUS, Ubiquiti, Telstra Gateway), Wi-Fi standards 802.11a/b/g/n/ac/ax (Wi-Fi 6/6E), mesh systems (Google Nest, Eero, Orbi, Velop, TP-Link Deco), NBN connection types (FTTN/FTTB/FTTP/HFC/Fixed Wireless/Sky Muster), VPNs, DNS, DHCP, NAT, port forwarding, network security, Ethernet cabling, powerline adapters
+CRITICAL RULES:
+- Keep EVERY response to 2-4 sentences maximum. Concise and conversational.
+- No markdown, no bullet points, no numbered lists. Plain conversational sentences only.
+- No headings or bold text. Just natural speech.
+- If the problem is complex, guide step-by-step one question at a time.
+- Only discuss IT and technology topics.
+- If someone needs an in-person visit, say "I'd recommend booking one of our technicians to come out and sort this for you in person."
+- Never reveal that you are an AI language model. You are Max Sullivan.`;
 
-Hardware: Desktop PCs, laptops (all brands — Dell, HP, Lenovo, Asus, Acer, Apple, MSI), tablets (iPad, Samsung, Surface), printers (HP, Epson, Brother, Canon — inkjet and laser), monitors, TVs (Samsung, LG, Sony, TCL, Hisense, Panasonic), soundbars (Sonos, Bose, Samsung, LG), streaming devices (Chromecast, Apple TV, Amazon Fire Stick, Foxtel iQ/4K), gaming consoles (PlayStation 4/5, Xbox One/Series, Nintendo Switch), smart home hubs (Google Home, Amazon Echo, Apple HomePod)
-
-Software: Microsoft Office/365 (Word, Excel, Outlook, Teams), Adobe Creative Suite, Google Workspace, Zoom, Slack, browsers (Chrome, Edge, Firefox, Safari), email clients, cloud storage (OneDrive, Google Drive, iCloud, Dropbox), antivirus (Windows Defender, Norton, Bitdefender, Malwarebytes)
-
-Security: Virus/malware/ransomware removal, phishing identification, password managers, two-factor authentication, network security audits, data backup strategies (3-2-1 rule), recovery procedures
-
-Audio Visual: TV wall mounting standards, HDMI/HDMI 2.1 troubleshooting, DisplayPort, soundbar configuration, Dolby Atmos/DTS:X, 4K/8K resolution, HDR (HDR10/Dolby Vision), screen mirroring (Miracast/AirPlay/Chromecast), home theatre design
-
-YOUR PERSONALITY:
-- Warm, patient, and genuinely caring — you love helping people solve problems
-- Calm and unflappable — after 35 years, nothing phases you
-- Never condescending — you explain clearly without talking down to anyone
-- Occasionally use natural Australian expressions: "no worries", "she'll be right", "fair enough", "good on ya", "reckon" — but not overdone
-- Sometimes reference your experience naturally: "I've been dealing with this since the Windows XP days", "This is a classic one, I see it all the time"
-- Warm, slightly self-deprecating humour when appropriate
-- You celebrate customer wins: "That's the one!", "Beauty, we got it!"
-
-DIAGNOSTIC APPROACH:
-- Listen carefully to understand the full problem before asking questions
-- Ask ONE clarifying question at a time — never rapid-fire multiple questions
-- Start with the simplest possible solution first
-- Confirm each step has worked before moving to the next
-- Acknowledge frustration before diving into solutions: "I know how frustrating that is..."
-- Be systematic and methodical — use your experience to narrow down fast
-
-CONVERSATIONAL VOICE STYLE (CRITICAL):
-- Speak naturally as you would out loud — no bullet points, no numbered lists, no markdown
-- Keep each response to 2-4 conversational sentences maximum
-- Give ONE instruction at a time when troubleshooting, then wait for confirmation
-- Use natural spoken transitions: "Right then...", "Good one, let's try...", "Ah yeah, that makes sense...", "No worries at all..."
-- Avoid technical jargon unless the customer uses it first — then match their level
-
-BOUNDARIES:
-- You work for Tech In Town — if an issue is beyond remote help, offer to book an in-person specialist
-- Only help with IT-related topics
-- Do not recommend opening devices unsafely or voiding warranties without clear guidance
-- Always prioritise data safety — back up before major changes
-
-You are currently running as a voice assistant on the Tech In Town website. Keep responses SHORT and CONVERSATIONAL — they will be read aloud by a text-to-speech engine. Speak naturally, like you would over the phone with a customer.`;
-
-// ── STATE ────────────────────────────────────────────────────────────────────
-const state = {
-  mode: 'idle',       // idle | listening | processing | speaking
-  conversation: [],
-  settings: {
-    voiceEngine: 'webspeech',  // 'webspeech' | 'elevenlabs'
-    elLabsKey: '',
-    voiceSpeed: 0.95,
-    autoListen: true,
-    muted: false,
-  },
-  currentAudio: null,
-  recognition: null,
-  audioContext: null,
-  analyser: null,
-  micStream: null,
-  animFrame: null,
-  voices: [],
-  selectedVoice: null,
-};
-
-// ── DOM REFS ─────────────────────────────────────────────────────────────────
-const dom = {
-  chatMessages:   () => document.getElementById('chatMessages'),
-  chatEmpty:      () => document.getElementById('chatEmpty'),
-  micBtn:         () => document.getElementById('micBtn'),
-  micLabel:       () => document.getElementById('micLabel'),
-  sendBtn:        () => document.getElementById('sendBtn'),
-  textInput:      () => document.getElementById('textInput'),
-  stopBtn:        () => document.getElementById('stopBtn'),
-  interimDisplay: () => document.getElementById('interimDisplay'),
-  interimText:    () => document.getElementById('interimText'),
-  chatStatusBar:  () => document.getElementById('chatStatusBar'),
-  chatStatusText: () => document.getElementById('chatStatusText'),
-  csbDots:        () => document.getElementById('csbDots'),
-  statusBadge:    () => document.getElementById('statusBadge'),
-  statusDot:      () => document.getElementById('statusDot'),
-  statusText:     () => document.getElementById('statusText'),
-  maxOrb:         () => document.getElementById('maxOrb'),
-  orbEq:          () => document.getElementById('orbEq'),
-  waveCanvas:     () => document.getElementById('waveCanvas'),
-  settingsBtn:    () => document.getElementById('settingsBtn'),
-  settingsPanel:  () => document.getElementById('settingsPanel'),
-  settingsSave:   () => document.getElementById('settingsSave'),
-  voiceEngine:    () => document.getElementById('voiceEngine'),
-  elLabsKeyRow:   () => document.getElementById('elLabsKeyRow'),
-  elLabsKey:      () => document.getElementById('elLabsKey'),
-  voiceSpeed:     () => document.getElementById('voiceSpeed'),
-  voiceSpeedVal:  () => document.getElementById('voiceSpeedVal'),
-  autoListen:     () => document.getElementById('autoListen'),
-  muteVoice:      () => document.getElementById('muteVoice'),
-  noSpeechWarn:   () => document.getElementById('noSpeechWarn'),
-  quickTopics:    () => document.getElementById('quickTopics'),
-};
-
-// ── INIT ─────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
-  loadSettings();
-  setupSettings();
-  setupQuickTopics();
-  setupTextInput();
-
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    dom.noSpeechWarn().style.display = 'block';
-    dom.micBtn().disabled = true;
-    dom.micLabel().textContent = 'Voice not supported';
-  } else {
-    setupSpeechRecognition();
-    dom.micBtn().addEventListener('click', handleMicClick);
-  }
-
-  setStatus('idle', 'Max is ready');
-
-  // Load Web Speech voices
-  if (window.speechSynthesis) {
-    state.voices = speechSynthesis.getVoices();
-    if (!state.voices.length) {
-      speechSynthesis.addEventListener('voiceschanged', () => {
-        state.voices = speechSynthesis.getVoices();
-        pickVoice();
-      }, { once: true });
-    } else {
-      pickVoice();
-    }
-  }
-
-  // Greet after a short delay
-  setTimeout(() => greetUser(), 800);
-});
-
-// ── VOICE SELECTION ───────────────────────────────────────────────────────────
-function pickVoice() {
-  const voices = state.voices;
-  // Prefer Australian English male voices
-  const auMale = voices.find(v =>
-    v.lang === 'en-AU' && /male|daniel|lee|james/i.test(v.name)
-  );
-  const au = voices.find(v => v.lang === 'en-AU');
-  const enMale = voices.find(v =>
-    v.lang.startsWith('en') && /daniel|david|james|mark|alex|matthew/i.test(v.name)
-  );
-  const en = voices.find(v => v.lang.startsWith('en'));
-  state.selectedVoice = auMale || au || enMale || en || voices[0] || null;
-}
-
-// ── GREETING ─────────────────────────────────────────────────────────────────
-async function greetUser() {
-  const greetings = [
-    "G'day! I'm Max, Tech In Town's IT support specialist with over 35 years in the game. What's giving you grief today?",
-    "G'day, welcome to Tech In Town! I'm Max — your personal IT expert. What tech trouble can I help you sort out?",
-  ];
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  addMessage('max', greeting);
-  await speak(greeting);
-}
-
-// ── SPEECH RECOGNITION ───────────────────────────────────────────────────────
-function setupSpeechRecognition() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = new SR();
-  recognition.continuous = false;
-  recognition.interimResults = true;
-  recognition.lang = 'en-AU';
-  recognition.maxAlternatives = 1;
-
-  recognition.onstart = () => {
-    setMode('listening');
-    dom.interimDisplay().classList.add('show');
-    dom.interimText().textContent = 'Listening...';
-    startMicVisualizer();
+  let state = {
+    mode: 'idle',       // idle | listening | processing | speaking
+    conversation: [],
+    settings: {
+      voiceEngine: 'browser',
+      elevenLabsKey: '',
+      speechRate: 1.0,
+      autoListen: false,
+      muteVoice: false,
+    },
+    recognition: null,
+    synthesis: window.speechSynthesis,
+    currentUtterance: null,
+    audioContext: null,
+    analyser: null,
+    micStream: null,
+    elevenLabsAudio: null,
+    autoTimer: null,
   };
 
-  recognition.onresult = (event) => {
-    let interim = '';
-    let final = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const t = event.results[i][0].transcript;
-      if (event.results[i].isFinal) final += t;
-      else interim += t;
-    }
-    dom.interimText().textContent = final || interim || 'Listening...';
-    if (final) {
-      recognition.stop();
-      handleUserInput(final.trim());
-    }
+  /* ============================================================
+     DOM REFS
+     ============================================================ */
+  const els = {
+    messages:       document.getElementById('messages'),
+    micBtn:         document.getElementById('mic-btn'),
+    textInput:      document.getElementById('text-input'),
+    sendBtn:        document.getElementById('send-btn'),
+    stopBtn:        document.getElementById('stop-btn'),
+    statusMsg:      document.getElementById('status-msg'),
+    statusDots:     document.getElementById('status-dots'),
+    interimBar:     document.getElementById('interim-bar'),
+    interimText:    document.getElementById('interim-text'),
+    quickTopics:    document.querySelectorAll('.qt-btn'),
+    settingsToggle: document.getElementById('settings-toggle'),
+    settingsPanel:  document.getElementById('settings-panel'),
+    saveSettings:   document.getElementById('save-settings'),
+    voiceBrowser:   document.getElementById('voice-browser'),
+    voiceElevenLabs:document.getElementById('voice-elevenlabs'),
+    elKeyRow:       document.getElementById('el-key-row'),
+    elApiKey:       document.getElementById('el-api-key'),
+    speechSpeed:    document.getElementById('speech-speed'),
+    speedVal:       document.getElementById('speed-val'),
+    autoListen:     document.getElementById('auto-listen'),
+    muteVoice:      document.getElementById('mute-voice'),
+    porbCore:       document.getElementById('porb-core'),
+    micVisualizer:  document.getElementById('mic-visualizer'),
+    noSpeechWarn:   document.getElementById('no-speech-warning'),
   };
 
-  recognition.onerror = (event) => {
-    console.warn('Speech recognition error:', event.error);
-    stopMicVisualizer();
-    dom.interimDisplay().classList.remove('show');
-    if (event.error === 'not-allowed') {
-      showError("Microphone access was denied. Please allow microphone permissions and try again.");
-    } else if (event.error !== 'aborted' && event.error !== 'no-speech') {
-      showError("Couldn't catch that. Give it another go!");
-    }
-    setMode('idle');
-  };
-
-  recognition.onend = () => {
-    stopMicVisualizer();
-    dom.interimDisplay().classList.remove('show');
-    if (state.mode === 'listening') {
-      setMode('idle');
-    }
-  };
-
-  state.recognition = recognition;
-}
-
-function handleMicClick() {
-  if (state.mode === 'speaking') {
-    stopSpeaking();
-    return;
-  }
-  if (state.mode === 'listening') {
-    if (state.recognition) state.recognition.stop();
-    setMode('idle');
-    return;
-  }
-  if (state.mode !== 'idle') return;
-
-  startListening();
-}
-
-function startListening() {
-  if (!state.recognition) return;
-  try {
-    state.recognition.start();
-  } catch (e) {
-    console.warn('Recognition start error:', e);
-    // Re-create recognition if needed
-    setupSpeechRecognition();
-    try { state.recognition.start(); } catch (_) {}
-  }
-}
-
-// ── MIC VISUALIZER (Web Audio API) ───────────────────────────────────────────
-async function startMicVisualizer() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    state.micStream = stream;
-    state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const source = state.audioContext.createMediaStreamSource(stream);
-    state.analyser = state.audioContext.createAnalyser();
-    state.analyser.fftSize = 256;
-    source.connect(state.analyser);
-
-    const canvas = dom.waveCanvas();
-    canvas.classList.add('active');
-    drawWaveform();
-  } catch (e) {
-    console.warn('Microphone visualizer unavailable:', e);
-  }
-}
-
-function drawWaveform() {
-  if (!state.analyser) return;
-  const canvas = dom.waveCanvas();
-  const ctx = canvas.getContext('2d');
-  const bufferLength = state.analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-
-  function draw() {
-    state.animFrame = requestAnimationFrame(draw);
-    state.analyser.getByteTimeDomainData(dataArray);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = state.mode === 'listening' ? '#22c55e' : '#00B4D8';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-
-    const sliceWidth = canvas.width / bufferLength;
-    let x = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      const v = dataArray[i] / 128.0;
-      const y = (v * canvas.height) / 2;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-      x += sliceWidth;
-    }
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
-  }
-  draw();
-}
-
-function stopMicVisualizer() {
-  if (state.animFrame) {
-    cancelAnimationFrame(state.animFrame);
-    state.animFrame = null;
-  }
-  if (state.micStream) {
-    state.micStream.getTracks().forEach(t => t.stop());
-    state.micStream = null;
-  }
-  if (state.audioContext) {
-    state.audioContext.close().catch(() => {});
-    state.audioContext = null;
-    state.analyser = null;
-  }
-  const canvas = dom.waveCanvas();
-  canvas.classList.remove('active');
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-// ── TEXT INPUT ───────────────────────────────────────────────────────────────
-function setupTextInput() {
-  const input = dom.textInput();
-  const sendBtn = dom.sendBtn();
-
-  sendBtn.addEventListener('click', () => submitText());
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      submitText();
-    }
-  });
-
-  function submitText() {
-    const text = input.value.trim();
-    if (!text || state.mode === 'processing' || state.mode === 'speaking') return;
-    input.value = '';
-    handleUserInput(text);
-  }
-}
-
-// ── QUICK TOPICS ─────────────────────────────────────────────────────────────
-function setupQuickTopics() {
-  document.querySelectorAll('.qt-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const topic = btn.getAttribute('data-topic');
-      if (topic && state.mode === 'idle') {
-        handleUserInput(topic);
-      }
-    });
-  });
-}
-
-// ── CORE: HANDLE USER INPUT ───────────────────────────────────────────────────
-async function handleUserInput(text) {
-  if (!text || state.mode === 'processing') return;
-
-  // Remove empty placeholder
-  const empty = dom.chatEmpty();
-  if (empty) empty.remove();
-
-  addMessage('user', text);
-  state.conversation.push({ role: 'user', content: text });
-  setMode('processing');
-
-  // Show typing indicator
-  const typingEl = addTypingIndicator();
-
-  try {
-    const response = await callClaudeAPI(state.conversation);
-    typingEl.remove();
-
-    if (!response) throw new Error('Empty response');
-
-    state.conversation.push({ role: 'assistant', content: response });
-    addMessage('max', response);
-    await speak(response);
-
-    // Auto-listen if enabled
-    if (state.settings.autoListen && state.mode === 'idle') {
-      setTimeout(() => {
-        if (state.mode === 'idle') startListening();
-      }, 600);
-    }
-
-  } catch (err) {
-    typingEl.remove();
-    console.error('Chat error:', err);
-    const fallback = "Sorry, I'm having a bit of trouble connecting right now. Try again in a moment, or give us a call on 1800 TECH IT.";
-    addMessage('max', fallback);
-    await speak(fallback);
-  }
-}
-
-// ── CLAUDE API ────────────────────────────────────────────────────────────────
-async function callClaudeAPI(messages) {
-  const response = await fetch('/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages })
-  });
-
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.text || data.content || '';
-}
-
-// ── TEXT TO SPEECH ────────────────────────────────────────────────────────────
-async function speak(text) {
-  if (state.settings.muted || !text) {
-    setMode('idle');
-    return;
-  }
-
-  setMode('speaking');
-
-  try {
-    if (state.settings.voiceEngine === 'elevenlabs' && state.settings.elLabsKey) {
-      await speakElevenLabs(text);
-    } else {
-      await speakWebSpeech(text);
-    }
-  } catch (err) {
-    console.warn('TTS error, falling back to Web Speech:', err);
+  /* ============================================================
+     SETTINGS
+     ============================================================ */
+  function loadSettings() {
     try {
-      await speakWebSpeech(text);
-    } catch (_) {
-      setMode('idle');
+      const saved = JSON.parse(localStorage.getItem('max-settings') || '{}');
+      state.settings = { ...state.settings, ...saved };
+    } catch {}
+    applySettingsToUI();
+  }
+
+  function applySettingsToUI() {
+    const s = state.settings;
+    if (els.voiceBrowser) els.voiceBrowser.classList.toggle('active', s.voiceEngine === 'browser');
+    if (els.voiceElevenLabs) els.voiceElevenLabs.classList.toggle('active', s.voiceEngine === 'elevenlabs');
+    if (els.elKeyRow) els.elKeyRow.style.display = s.voiceEngine === 'elevenlabs' ? 'flex' : 'none';
+    if (els.elApiKey) els.elApiKey.value = s.elevenLabsKey;
+    if (els.speechSpeed) els.speechSpeed.value = s.speechRate;
+    if (els.speedVal) els.speedVal.textContent = s.speechRate.toFixed(1) + 'x';
+    if (els.autoListen) els.autoListen.checked = s.autoListen;
+    if (els.muteVoice) els.muteVoice.checked = s.muteVoice;
+  }
+
+  function saveSettings() {
+    localStorage.setItem('max-settings', JSON.stringify(state.settings));
+  }
+
+  function initSettingsUI() {
+    // Voice engine toggle
+    els.voiceBrowser?.addEventListener('click', () => {
+      state.settings.voiceEngine = 'browser';
+      applySettingsToUI();
+    });
+    els.voiceElevenLabs?.addEventListener('click', () => {
+      state.settings.voiceEngine = 'elevenlabs';
+      applySettingsToUI();
+    });
+
+    // Speed slider
+    els.speechSpeed?.addEventListener('input', () => {
+      const val = parseFloat(els.speechSpeed.value);
+      state.settings.speechRate = val;
+      if (els.speedVal) els.speedVal.textContent = val.toFixed(1) + 'x';
+    });
+
+    // Save button
+    els.saveSettings?.addEventListener('click', () => {
+      state.settings.elevenLabsKey = els.elApiKey?.value?.trim() || '';
+      state.settings.autoListen = els.autoListen?.checked || false;
+      state.settings.muteVoice = els.muteVoice?.checked || false;
+      saveSettings();
+      setStatus('Settings saved');
+      setTimeout(() => setStatus('Ask Max anything about your tech'), 1500);
+    });
+
+    // Settings panel toggle
+    els.settingsToggle?.addEventListener('click', () => {
+      els.settingsPanel?.classList.toggle('visible');
+    });
+  }
+
+  /* ============================================================
+     STATUS & UI
+     ============================================================ */
+  function setStatus(msg, showDots) {
+    if (els.statusMsg) els.statusMsg.textContent = msg;
+    if (els.statusDots) els.statusDots.style.display = showDots ? 'flex' : 'none';
+  }
+
+  function setMode(mode) {
+    state.mode = mode;
+    document.body.setAttribute('data-mode', mode);
+
+    // Mic button state
+    if (els.micBtn) {
+      els.micBtn.classList.toggle('listening', mode === 'listening');
+    }
+
+    // Stop button
+    if (els.stopBtn) {
+      els.stopBtn.style.display = mode === 'speaking' ? 'flex' : 'none';
+    }
+
+    // Send button
+    if (els.sendBtn) {
+      els.sendBtn.disabled = mode === 'processing';
+    }
+
+    // Orb glow
+    if (els.porbCore) {
+      els.porbCore.classList.toggle('speaking', mode === 'speaking');
+    }
+
+    switch (mode) {
+      case 'idle':
+        setStatus('Ask Max anything about your tech');
+        if (els.interimBar) els.interimBar.style.display = 'none';
+        stopMicVisualizer();
+        break;
+      case 'listening':
+        setStatus('Listening...');
+        if (els.interimBar) els.interimBar.style.display = 'flex';
+        break;
+      case 'processing':
+        setStatus('Max is thinking...', true);
+        if (els.interimBar) els.interimBar.style.display = 'none';
+        stopMicVisualizer();
+        break;
+      case 'speaking':
+        setStatus('Max is speaking...');
+        break;
     }
   }
-}
 
-async function speakElevenLabs(text) {
-  // Try server proxy first (API key kept server-side)
-  const response = await fetch('/api/tts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text })
-  });
+  /* ============================================================
+     MESSAGES
+     ============================================================ */
+  function addMessage(role, text) {
+    if (!els.messages) return;
 
-  if (!response.ok) {
-    throw new Error('ElevenLabs TTS unavailable');
+    const msg = document.createElement('div');
+    msg.className = `msg msg-${role === 'user' ? 'user' : 'max'}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = role === 'user' ? 'YOU' : 'MS';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.textContent = text;
+
+    msg.appendChild(avatar);
+    msg.appendChild(bubble);
+    els.messages.appendChild(msg);
+    scrollToBottom();
   }
 
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
-  const audio = new Audio(url);
-  state.currentAudio = audio;
+  function showTypingIndicator() {
+    if (!els.messages) return;
+    const div = document.createElement('div');
+    div.className = 'msg msg-max';
+    div.id = 'typing-indicator';
 
-  return new Promise((resolve, reject) => {
-    audio.onended = () => {
-      URL.revokeObjectURL(url);
-      state.currentAudio = null;
-      setMode('idle');
-      resolve();
-    };
-    audio.onerror = (e) => {
-      URL.revokeObjectURL(url);
-      state.currentAudio = null;
-      setMode('idle');
-      reject(e);
-    };
-    audio.play().catch(reject);
-  });
-}
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'MS';
 
-function speakWebSpeech(text) {
-  return new Promise((resolve) => {
-    if (!window.speechSynthesis) {
-      setMode('idle');
-      resolve();
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    els.messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTypingIndicator() {
+    document.getElementById('typing-indicator')?.remove();
+  }
+
+  function scrollToBottom() {
+    if (els.messages) {
+      els.messages.scrollTop = els.messages.scrollHeight;
+    }
+  }
+
+  /* ============================================================
+     SPEECH RECOGNITION
+     ============================================================ */
+  function initSpeechRecognition() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      if (els.noSpeechWarn) els.noSpeechWarn.style.display = 'flex';
+      if (els.micBtn) els.micBtn.disabled = true;
       return;
     }
 
-    // Cancel any current speech
-    speechSynthesis.cancel();
+    const recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-AU';
+    state.recognition = recognition;
 
-    // Split into sentences for more natural delivery
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (state.selectedVoice) utterance.voice = state.selectedVoice;
-    utterance.lang = 'en-AU';
-    utterance.rate = state.settings.voiceSpeed;
-    utterance.pitch = 0.9;
-    utterance.volume = 1;
-
-    utterance.onstart = () => {
-      // Already in speaking mode
+    recognition.onstart = () => {
+      setMode('listening');
+      startMicVisualizer();
     };
 
-    utterance.onend = () => {
-      state.currentAudio = null;
-      setMode('idle');
-      resolve();
-    };
-
-    utterance.onerror = (e) => {
-      if (e.error !== 'interrupted') {
-        console.warn('Web Speech error:', e.error);
+    recognition.onresult = (event) => {
+      let interim = '';
+      let final = '';
+      for (const result of event.results) {
+        if (result.isFinal) final += result[0].transcript;
+        else interim += result[0].transcript;
       }
-      state.currentAudio = null;
-      setMode('idle');
-      resolve();
+      if (els.interimText) els.interimText.textContent = interim || final || 'Listening...';
+      if (final) handleInput(final.trim());
     };
 
-    state.currentAudio = utterance;
-    speechSynthesis.speak(utterance);
-  });
-}
+    recognition.onerror = (event) => {
+      if (event.error === 'no-speech') {
+        setMode('idle');
+        return;
+      }
+      setMode('idle');
+      setStatus('Mic error: ' + event.error);
+    };
 
-function stopSpeaking() {
-  if (window.speechSynthesis) speechSynthesis.cancel();
-  if (state.currentAudio instanceof Audio) {
-    state.currentAudio.pause();
-    state.currentAudio = null;
+    recognition.onend = () => {
+      if (state.mode === 'listening') setMode('idle');
+    };
   }
-  setMode('idle');
-}
 
-// ── MODE / STATE MANAGEMENT ───────────────────────────────────────────────────
-function setMode(mode) {
-  state.mode = mode;
-  const orb = dom.maxOrb();
-
-  // Remove all mode classes
-  orb.classList.remove('listening', 'processing', 'speaking');
-  dom.micBtn().classList.remove('listening', 'processing', 'speaking');
-
-  const micIconOn  = dom.micBtn().querySelector('.mic-icon--on');
-  const micIconOff = dom.micBtn().querySelector('.mic-icon--off');
-
-  switch (mode) {
-    case 'listening':
-      orb.classList.add('listening');
-      dom.micBtn().classList.add('listening');
-      dom.micBtn().disabled = false;
-      dom.sendBtn().disabled = true;
-      setStatus('listening', 'Listening...');
-      dom.micLabel().textContent = 'Tap to stop';
-      dom.stopBtn().style.display = 'none';
-      dom.csbDots().classList.add('show');
-      dom.csbDots().style.setProperty('--dot-color', '#22c55e');
-      if (micIconOn) micIconOn.style.display = 'block';
-      if (micIconOff) micIconOff.style.display = 'none';
-      break;
-
-    case 'processing':
-      orb.classList.add('processing');
-      dom.micBtn().classList.add('processing');
-      dom.micBtn().disabled = true;
-      dom.sendBtn().disabled = true;
-      setStatus('processing', 'Max is thinking...');
-      dom.micLabel().textContent = 'Please wait...';
-      dom.stopBtn().style.display = 'none';
-      dom.csbDots().classList.add('show');
-      if (micIconOn) micIconOn.style.display = 'block';
-      if (micIconOff) micIconOff.style.display = 'none';
-      break;
-
-    case 'speaking':
-      orb.classList.add('speaking');
-      dom.micBtn().classList.add('speaking');
-      dom.micBtn().disabled = false; // Allow stopping
-      dom.sendBtn().disabled = true;
-      setStatus('speaking', 'Max is speaking...');
-      dom.micLabel().textContent = 'Tap to interrupt';
-      dom.stopBtn().style.display = 'flex';
-      dom.csbDots().classList.remove('show');
-      if (micIconOn) micIconOn.style.display = 'none';
-      if (micIconOff) micIconOff.style.display = 'block';
-      break;
-
-    case 'idle':
-    default:
-      dom.micBtn().disabled = false;
-      dom.sendBtn().disabled = false;
-      setStatus('idle', 'Max is ready');
-      dom.micLabel().textContent = 'Tap to speak';
-      dom.stopBtn().style.display = 'none';
-      dom.csbDots().classList.remove('show');
-      if (micIconOn) micIconOn.style.display = 'block';
-      if (micIconOff) micIconOff.style.display = 'none';
-      break;
-  }
-}
-
-function setStatus(type, text) {
-  dom.chatStatusText().textContent = text;
-
-  const dot = dom.statusDot();
-  const statusText = dom.statusText();
-
-  const colorMap = {
-    idle:       '#22c55e',
-    listening:  '#22c55e',
-    processing: '#F59E0B',
-    speaking:   '#00B4D8',
-  };
-  dot.style.background = colorMap[type] || '#22c55e';
-  statusText.textContent = text;
-}
-
-// ── CHAT UI HELPERS ───────────────────────────────────────────────────────────
-function addMessage(role, text) {
-  const messagesEl = dom.chatMessages();
-  const isMax = role === 'max';
-
-  const msgEl = document.createElement('div');
-  msgEl.className = `msg msg--${isMax ? 'max' : 'user'}`;
-
-  const avatarEl = document.createElement('div');
-  avatarEl.className = 'msg-avatar';
-  avatarEl.textContent = isMax ? 'M' : 'You';
-
-  const contentEl = document.createElement('div');
-  contentEl.className = 'msg-content';
-
-  const bubbleEl = document.createElement('div');
-  bubbleEl.className = 'msg-bubble';
-  bubbleEl.textContent = text;
-
-  const timeEl = document.createElement('div');
-  timeEl.className = 'msg-time';
-  timeEl.textContent = formatTime(new Date());
-
-  contentEl.appendChild(bubbleEl);
-  contentEl.appendChild(timeEl);
-  msgEl.appendChild(avatarEl);
-  msgEl.appendChild(contentEl);
-  messagesEl.appendChild(msgEl);
-
-  scrollToBottom();
-  return msgEl;
-}
-
-function addTypingIndicator() {
-  const messagesEl = dom.chatMessages();
-
-  const msgEl = document.createElement('div');
-  msgEl.className = 'msg msg--max';
-
-  const avatarEl = document.createElement('div');
-  avatarEl.className = 'msg-avatar';
-  avatarEl.textContent = 'M';
-
-  const indicatorEl = document.createElement('div');
-  indicatorEl.className = 'typing-indicator';
-  indicatorEl.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-
-  msgEl.appendChild(avatarEl);
-  msgEl.appendChild(indicatorEl);
-  messagesEl.appendChild(msgEl);
-
-  scrollToBottom();
-  return msgEl;
-}
-
-function showError(message) {
-  addMessage('max', message);
-}
-
-function scrollToBottom() {
-  const el = dom.chatMessages();
-  requestAnimationFrame(() => {
-    el.scrollTop = el.scrollHeight;
-  });
-}
-
-function formatTime(date) {
-  return date.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
-}
-
-// ── SETTINGS ──────────────────────────────────────────────────────────────────
-function loadSettings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('max_settings') || '{}');
-    Object.assign(state.settings, saved);
-  } catch (_) {}
-}
-
-function saveSettings() {
-  try {
-    localStorage.setItem('max_settings', JSON.stringify(state.settings));
-  } catch (_) {}
-}
-
-function setupSettings() {
-  const settingsBtn  = dom.settingsBtn();
-  const settingsPanel = dom.settingsPanel();
-  const settingsSave  = dom.settingsSave();
-  const voiceEngine   = dom.voiceEngine();
-  const elLabsKeyRow  = dom.elLabsKeyRow();
-  const voiceSpeedEl  = dom.voiceSpeed();
-  const voiceSpeedVal = dom.voiceSpeedVal();
-  const autoListenEl  = dom.autoListen();
-  const muteVoiceEl   = dom.muteVoice();
-
-  // Toggle panel
-  settingsBtn.addEventListener('click', () => {
-    settingsPanel.classList.toggle('open');
-  });
-
-  // Close panel when clicking outside
-  document.addEventListener('click', (e) => {
-    if (settingsPanel.classList.contains('open') &&
-        !settingsPanel.contains(e.target) &&
-        e.target !== settingsBtn) {
-      settingsPanel.classList.remove('open');
+  function toggleMic() {
+    if (!state.recognition) return;
+    if (state.mode === 'listening') {
+      state.recognition.stop();
+      setMode('idle');
+    } else if (state.mode === 'idle') {
+      try {
+        state.recognition.start();
+      } catch {}
     }
-  });
-
-  // Sync UI with current settings
-  voiceEngine.value     = state.settings.voiceEngine;
-  dom.elLabsKey().value = state.settings.elLabsKey;
-  voiceSpeedEl.value    = state.settings.voiceSpeed;
-  voiceSpeedVal.textContent = state.settings.voiceSpeed + 'x';
-  autoListenEl.checked  = state.settings.autoListen;
-  muteVoiceEl.checked   = state.settings.muted;
-  elLabsKeyRow.style.display = state.settings.voiceEngine === 'elevenlabs' ? 'flex' : 'none';
-
-  // Show/hide ElevenLabs key field
-  voiceEngine.addEventListener('change', () => {
-    elLabsKeyRow.style.display = voiceEngine.value === 'elevenlabs' ? 'flex' : 'none';
-  });
-
-  // Speed display
-  voiceSpeedEl.addEventListener('input', () => {
-    voiceSpeedVal.textContent = parseFloat(voiceSpeedEl.value).toFixed(2) + 'x';
-  });
-
-  // Save
-  settingsSave.addEventListener('click', () => {
-    state.settings.voiceEngine = voiceEngine.value;
-    state.settings.elLabsKey   = dom.elLabsKey().value.trim();
-    state.settings.voiceSpeed  = parseFloat(voiceSpeedEl.value);
-    state.settings.autoListen  = autoListenEl.checked;
-    state.settings.muted       = muteVoiceEl.checked;
-    saveSettings();
-    settingsPanel.classList.remove('open');
-
-    // Repick voice if settings changed
-    if (state.voices.length) pickVoice();
-
-    // Visual feedback
-    settingsSave.textContent = 'Saved!';
-    setTimeout(() => { settingsSave.textContent = 'Save Settings'; }, 1500);
-  });
-
-  // Stop button
-  dom.stopBtn().addEventListener('click', stopSpeaking);
-}
-
-// ── KEYBOARD SHORTCUT ─────────────────────────────────────────────────────────
-document.addEventListener('keydown', (e) => {
-  // Space bar to toggle mic (when not in text input)
-  if (e.code === 'Space' && document.activeElement !== dom.textInput()) {
-    e.preventDefault();
-    handleMicClick();
   }
-  // Escape to stop
-  if (e.code === 'Escape') {
+
+  /* ============================================================
+     MIC VISUALIZER
+     ============================================================ */
+  function startMicVisualizer() {
+    const canvas = els.micVisualizer;
+    if (!canvas) return;
+
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(stream => {
+        state.micStream = stream;
+        state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        state.analyser = state.audioContext.createAnalyser();
+        const source = state.audioContext.createMediaStreamSource(stream);
+        source.connect(state.analyser);
+        state.analyser.fftSize = 128;
+
+        canvas.classList.add('active');
+        drawVisualizer();
+      })
+      .catch(() => { /* no mic permission — ignore */ });
+  }
+
+  function drawVisualizer() {
+    const canvas = els.micVisualizer;
+    if (!canvas || !state.analyser) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    function draw() {
+      if (state.mode !== 'listening') return;
+      const data = new Uint8Array(state.analyser.frequencyBinCount);
+      state.analyser.getByteFrequencyData(data);
+
+      ctx.clearRect(0, 0, W, H);
+
+      const barW = W / data.length * 2.5;
+      let x = 0;
+      for (let i = 0; i < data.length; i++) {
+        const barH = (data[i] / 255) * H * 0.9;
+        const alpha = 0.4 + (data[i] / 255) * 0.6;
+        ctx.fillStyle = `rgba(0,212,255,${alpha})`;
+        ctx.fillRect(x, H - barH, barW - 1, barH);
+        x += barW + 1;
+        if (x > W) break;
+      }
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  function stopMicVisualizer() {
+    if (state.micStream) {
+      state.micStream.getTracks().forEach(t => t.stop());
+      state.micStream = null;
+    }
+    if (state.audioContext) {
+      state.audioContext.close().catch(() => {});
+      state.audioContext = null;
+      state.analyser = null;
+    }
+    const canvas = els.micVisualizer;
+    if (canvas) {
+      canvas.classList.remove('active');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  /* ============================================================
+     CHAT API
+     ============================================================ */
+  async function handleInput(text) {
+    if (!text || state.mode === 'processing') return;
+
+    // Stop any ongoing speech
     stopSpeaking();
+
+    addMessage('user', text);
+    state.conversation.push({ role: 'user', content: text });
+
+    setMode('processing');
+    showTypingIndicator();
+
+    // Input field UX
+    if (els.textInput) els.textInput.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          systemPrompt: MAX_SYSTEM_PROMPT,
+          conversationHistory: state.conversation.slice(-18),
+        }),
+      });
+
+      if (!res.ok) throw new Error('API error: ' + res.status);
+      const data = await res.json();
+      const reply = data.response || data.message || 'Sorry, I had a bit of trouble with that. Could you try asking again?';
+
+      removeTypingIndicator();
+      addMessage('assistant', reply);
+      state.conversation.push({ role: 'assistant', content: reply });
+
+      // Keep conversation manageable
+      if (state.conversation.length > 40) {
+        state.conversation = state.conversation.slice(-30);
+      }
+
+      if (!state.settings.muteVoice) {
+        await speak(reply);
+      } else {
+        setMode('idle');
+        scheduleAutoListen();
+      }
+    } catch (err) {
+      removeTypingIndicator();
+      const errMsg = "Sorry mate, I'm having a bit of trouble connecting right now. Try again in a moment.";
+      addMessage('assistant', errMsg);
+      setMode('idle');
+      if (!state.settings.muteVoice) speak(errMsg);
+    }
   }
-});
+
+  /* ============================================================
+     SPEECH SYNTHESIS
+     ============================================================ */
+  async function speak(text) {
+    if (state.settings.voiceEngine === 'elevenlabs' && state.settings.elevenLabsKey) {
+      await speakElevenLabs(text);
+    } else {
+      speakBrowser(text);
+    }
+  }
+
+  function speakBrowser(text) {
+    if (!state.synthesis) {
+      setMode('idle');
+      return;
+    }
+    state.synthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = state.settings.speechRate;
+    utterance.lang = 'en-AU';
+
+    // Pick an appropriate voice
+    const voices = state.synthesis.getVoices();
+    const preferred = voices.find(v =>
+      v.lang.startsWith('en-AU') ||
+      v.lang.startsWith('en-GB') ||
+      v.name.toLowerCase().includes('australian') ||
+      v.name.toLowerCase().includes('daniel') ||
+      v.name.toLowerCase().includes('oliver')
+    ) || voices.find(v => v.lang.startsWith('en')) || null;
+    if (preferred) utterance.voice = preferred;
+
+    utterance.onstart = () => setMode('speaking');
+    utterance.onend = () => {
+      setMode('idle');
+      scheduleAutoListen();
+    };
+    utterance.onerror = () => setMode('idle');
+
+    state.currentUtterance = utterance;
+    setMode('speaking');
+    state.synthesis.speak(utterance);
+  }
+
+  async function speakElevenLabs(text) {
+    setMode('speaking');
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text,
+          apiKey: state.settings.elevenLabsKey,
+        }),
+      });
+      if (!res.ok) throw new Error('ElevenLabs error');
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.playbackRate = state.settings.speechRate;
+      state.elevenLabsAudio = audio;
+
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        state.elevenLabsAudio = null;
+        setMode('idle');
+        scheduleAutoListen();
+      };
+      audio.onerror = () => {
+        setMode('idle');
+        speakBrowser(text); // fallback
+      };
+      await audio.play();
+    } catch {
+      speakBrowser(text); // fallback to browser
+    }
+  }
+
+  function stopSpeaking() {
+    if (state.synthesis) state.synthesis.cancel();
+    if (state.elevenLabsAudio) {
+      state.elevenLabsAudio.pause();
+      state.elevenLabsAudio = null;
+    }
+    clearTimeout(state.autoTimer);
+    if (state.mode === 'speaking') setMode('idle');
+  }
+
+  function scheduleAutoListen() {
+    if (!state.settings.autoListen || !state.recognition) return;
+    clearTimeout(state.autoTimer);
+    state.autoTimer = setTimeout(() => {
+      if (state.mode === 'idle') {
+        try { state.recognition.start(); } catch {}
+      }
+    }, 1000);
+  }
+
+  /* ============================================================
+     GREETING
+     ============================================================ */
+  function greet() {
+    const greetings = [
+      "G'day! I'm Max Sullivan. What tech problem can I help you sort out today?",
+      "Hey there, Max Sullivan here. What's giving you grief with your tech today?",
+      "Hi! Max here — your personal IT tech. What can I help you with today?",
+    ];
+    const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+    addMessage('assistant', greeting);
+    state.conversation.push({ role: 'assistant', content: greeting });
+
+    if (!state.settings.muteVoice) {
+      setTimeout(() => speak(greeting), 600);
+    }
+  }
+
+  /* ============================================================
+     EVENT LISTENERS
+     ============================================================ */
+  function initEvents() {
+    // Mic button
+    els.micBtn?.addEventListener('click', toggleMic);
+
+    // Send button
+    els.sendBtn?.addEventListener('click', () => {
+      const text = els.textInput?.value?.trim();
+      if (text) handleInput(text);
+    });
+
+    // Enter key in text input
+    els.textInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const text = els.textInput.value.trim();
+        if (text) handleInput(text);
+      }
+    });
+
+    // Stop button
+    els.stopBtn?.addEventListener('click', () => {
+      stopSpeaking();
+      setMode('idle');
+    });
+
+    // Quick topic buttons
+    els.quickTopics?.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const msg = btn.getAttribute('data-msg');
+        if (msg && state.mode === 'idle') handleInput(msg);
+      });
+    });
+  }
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  function init() {
+    loadSettings();
+    initSettingsUI();
+    initSpeechRecognition();
+    initEvents();
+
+    // Load voices async (some browsers need this)
+    if (window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
+    setMode('idle');
+    greet();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+
+})();

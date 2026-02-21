@@ -1,275 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Talk to Max | AI IT Support | Tech In Town</title>
-  <meta name="description" content="Max is your 24/7 AI IT support specialist — 35+ years of knowledge, voice activated, available right now." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="ai-technician.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Max Sullivan — AI Technician | Tech In Town</title>
+  <meta name="description" content="Talk to Max Sullivan, your 24/7 AI IT technician. Voice-powered tech support for Gold Coast apartment residents.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ai-technician.css">
 </head>
-<body class="ai-page">
+<body>
 
-  <!-- TOP BAR -->
-  <header class="ai-topbar">
-    <a href="index.html" class="ai-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-        <path d="M19 12H5M12 5l-7 7 7 7"/>
-      </svg>
-      Back to Tech In Town
+  <!-- Top Bar -->
+  <header class="topbar">
+    <a href="index.html" class="topbar-back" aria-label="Back to home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back
     </a>
-    <div class="ai-topbar-center">
-      <span class="logo-bolt">&#9889;</span>
-      <span class="ai-brand">Tech<em>In</em>Town</span>
-    </div>
-    <div class="ai-topbar-right">
-      <div class="ai-status-badge" id="statusBadge">
-        <span class="live-dot" id="statusDot"></span>
-        <span id="statusText">Connecting Max...</span>
-      </div>
-      <button class="ai-settings-btn" id="settingsBtn" aria-label="Settings" title="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-        </svg>
-      </button>
+    <a href="index.html" class="topbar-logo">
+      <span class="logo-bracket">[</span>TECH<span class="logo-accent">IN</span>TOWN<span class="logo-bracket">]</span>
+    </a>
+    <div class="topbar-status">
+      <span class="status-dot-ani"></span>
+      <span class="status-text">Max Online</span>
     </div>
   </header>
 
-  <!-- SETTINGS PANEL -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="settings-inner">
-      <h3>Voice Settings</h3>
-      <div class="setting-row">
-        <label for="voiceEngine">Voice Engine</label>
-        <select id="voiceEngine">
-          <option value="webspeech">Browser Voice (Free)</option>
-          <option value="elevenlabs">ElevenLabs AI Voice (Premium)</option>
-        </select>
-      </div>
-      <div class="setting-row" id="elLabsKeyRow" style="display:none">
-        <label for="elLabsKey">ElevenLabs API Key</label>
-        <input type="password" id="elLabsKey" placeholder="Your ElevenLabs API key" />
-      </div>
-      <div class="setting-row">
-        <label for="voiceSpeed">Speech Rate</label>
-        <input type="range" id="voiceSpeed" min="0.7" max="1.3" step="0.05" value="0.95" />
-        <span id="voiceSpeedVal">0.95x</span>
-      </div>
-      <div class="setting-row">
-        <label for="autoListen">Auto-listen after Max speaks</label>
-        <label class="toggle">
-          <input type="checkbox" id="autoListen" checked />
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-row">
-        <label for="muteVoice">Mute Max's voice (text only)</label>
-        <label class="toggle">
-          <input type="checkbox" id="muteVoice" />
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <button class="btn btn-primary" id="settingsSave">Save Settings</button>
-    </div>
-  </div>
+  <!-- Main Layout -->
+  <div class="ai-layout">
 
-  <!-- MAIN LAYOUT -->
-  <main class="ai-main">
-
-    <!-- LEFT: MAX PROFILE & VISUAL -->
+    <!-- Sidebar -->
     <aside class="ai-sidebar">
-      <div class="max-profile">
-        <div class="max-vis">
-          <div class="max-orb" id="maxOrb">
-            <div class="max-orb-ring or1"></div>
-            <div class="max-orb-ring or2"></div>
-            <div class="max-orb-ring or3"></div>
-            <div class="max-orb-face">
-              <svg viewBox="0 0 80 80" fill="none" width="72" height="72">
-                <!-- Head -->
-                <circle cx="40" cy="36" r="20" fill="#ADE8F4" stroke="#0096C7" stroke-width="2"/>
-                <!-- Hair (dark with grey) -->
-                <path d="M22 30 C22 20 30 12 40 12 C50 12 58 20 58 30" fill="#3D5166"/>
-                <!-- Face -->
-                <ellipse cx="40" cy="38" rx="14" ry="15" fill="#E8D5C4"/>
-                <!-- Eyes -->
-                <circle cx="35" cy="35" r="3" fill="#2D3748"/>
-                <circle cx="45" cy="35" r="3" fill="#2D3748"/>
-                <circle cx="36" cy="34" r="1" fill="white"/>
-                <circle cx="46" cy="34" r="1" fill="white"/>
-                <!-- Smile -->
-                <path d="M34 42 Q40 47 46 42" stroke="#C4A882" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                <!-- Headset band -->
-                <path d="M22 32 C20 24 28 14 40 14 C52 14 60 24 58 32" stroke="#0077B6" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <!-- Headset cups -->
-                <rect x="18" y="30" width="8" height="12" rx="3" fill="#0096C7"/>
-                <rect x="54" y="30" width="8" height="12" rx="3" fill="#0096C7"/>
-                <!-- Mic boom -->
-                <path d="M62 38 L68 42 L65 46" stroke="#00B4D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- Collar -->
-                <path d="M27 55 L33 50 L40 54 L47 50 L53 55" stroke="#2B4C7E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <ellipse cx="40" cy="65" rx="16" ry="10" fill="#2B4C7E"/>
-              </svg>
-            </div>
-            <!-- EQ bars when speaking -->
-            <div class="max-orb-eq" id="orbEq">
-              <span class="oeq" style="--d:0s;--mh:70%"></span>
-              <span class="oeq" style="--d:0.08s;--mh:100%"></span>
-              <span class="oeq" style="--d:0.16s;--mh:55%"></span>
-              <span class="oeq" style="--d:0.04s;--mh:85%"></span>
-              <span class="oeq" style="--d:0.12s;--mh:65%"></span>
-              <span class="oeq" style="--d:0.2s;--mh:90%"></span>
-              <span class="oeq" style="--d:0.06s;--mh:50%"></span>
-              <span class="oeq" style="--d:0.14s;--mh:80%"></span>
-            </div>
+      <!-- Max Profile -->
+      <div class="profile-section">
+        <div class="profile-orb-wrap">
+          <div class="profile-orb-container" id="profile-orb">
+            <div class="porb-ring r1"></div>
+            <div class="porb-ring r2"></div>
+            <div class="porb-ring r3"></div>
+            <div class="porb-core" id="porb-core">MS</div>
           </div>
-          <!-- Waveform canvas (for microphone input) -->
-          <canvas id="waveCanvas" width="240" height="48" class="wave-canvas"></canvas>
+          <canvas class="mic-visualizer" id="mic-visualizer" width="200" height="60"></canvas>
         </div>
 
-        <div class="max-bio">
-          <h2 class="max-fullname">Max Sullivan</h2>
-          <p class="max-title">Senior IT Support Technician</p>
-          <div class="max-exp-tag">
-            <span>&#127894;</span> 35+ Years Experience
-          </div>
-          <div class="max-expertise">
-            <h4>Expertise</h4>
-            <div class="exp-tags">
-              <span>Windows 3.1&rarr;11</span>
-              <span>macOS</span>
-              <span>Linux</span>
-              <span>NBN / Wi-Fi</span>
-              <span>Smart Home</span>
-              <span>Audio Visual</span>
-              <span>Networking</span>
-              <span>Cybersecurity</span>
-              <span>iOS / Android</span>
-              <span>Office 365</span>
-              <span>Printers</span>
-              <span>Gaming</span>
-            </div>
+        <div class="profile-info">
+          <h2>Max Sullivan</h2>
+          <p class="profile-title">AI IT Technician</p>
+          <div class="profile-badge">
+            <span class="badge-dot-ani"></span>
+            35+ Years Experience
           </div>
         </div>
 
-        <div class="max-stats">
-          <div class="mstat"><span class="mstat-n">35+</span><span class="mstat-l">Years IT</span></div>
-          <div class="mstat-sep"></div>
-          <div class="mstat"><span class="mstat-n">24/7</span><span class="mstat-l">Available</span></div>
-          <div class="mstat-sep"></div>
-          <div class="mstat"><span class="mstat-n">100%</span><span class="mstat-l">Success Rate</span></div>
+        <div class="profile-tags">
+          <span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">Linux</span>
+          <span class="tag">NBN</span><span class="tag">Smart Home</span><span class="tag">AV</span>
+          <span class="tag">Wi-Fi</span><span class="tag">iOS</span><span class="tag">Security</span>
         </div>
 
-        <a href="index.html#book" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+        <div class="profile-stats">
+          <div class="pstat">
+            <span class="pstat-num">35+</span>
+            <span class="pstat-label">Years IT</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-num">24/7</span>
+            <span class="pstat-label">Available</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-num">100%</span>
+            <span class="pstat-label">Success</span>
+          </div>
+        </div>
+
+        <a href="index.html#book" class="sidebar-book-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
           Book In-Person Visit
         </a>
       </div>
+
+      <!-- Settings Panel -->
+      <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Settings
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label">Voice Engine</label>
+          <div class="setting-toggle-group">
+            <button class="toggle-btn active" id="voice-browser">Browser</button>
+            <button class="toggle-btn" id="voice-elevenlabs">ElevenLabs</button>
+          </div>
+        </div>
+
+        <div class="setting-row" id="el-key-row" style="display:none">
+          <label class="setting-label" for="el-api-key">ElevenLabs API Key</label>
+          <input type="password" id="el-api-key" class="setting-input" placeholder="sk_...">
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label">Speech Speed <span id="speed-val">1.0x</span></label>
+          <input type="range" id="speech-speed" class="setting-range" min="0.7" max="1.3" step="0.1" value="1.0">
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="auto-listen">Auto-listen after response</label>
+          <label class="switch">
+            <input type="checkbox" id="auto-listen">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="mute-voice">Mute voice (text only)</label>
+          <label class="switch">
+            <input type="checkbox" id="mute-voice">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <button class="save-settings-btn" id="save-settings">Save Settings</button>
+      </div>
     </aside>
 
-    <!-- RIGHT: CONVERSATION -->
-    <section class="ai-chat">
+    <!-- Chat Area -->
+    <main class="ai-chat">
 
-      <!-- Conversation area -->
-      <div class="chat-messages" id="chatMessages">
-        <!-- Messages injected by JS -->
-        <div class="chat-empty" id="chatEmpty">
-          <div class="chat-empty-icon">&#127908;</div>
-          <p>Press the mic button below and tell Max what's going on with your tech. He's listening.</p>
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-header-left">
+          <div class="chat-avatar">MS</div>
+          <div>
+            <strong>Max Sullivan</strong>
+            <span class="chat-online">
+              <span class="status-dot-ani"></span>
+              AI Technician — Online
+            </span>
+          </div>
         </div>
+        <button class="settings-toggle-btn" id="settings-toggle" aria-label="Toggle settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
       </div>
 
-      <!-- Interim speech display -->
-      <div class="interim-display" id="interimDisplay">
-        <div class="interim-inner">
-          <div class="interim-mic">&#127908;</div>
-          <p id="interimText">Listening...</p>
-        </div>
+      <!-- Messages -->
+      <div class="messages" id="messages">
+        <!-- Messages injected by JS -->
+      </div>
+
+      <!-- Interim transcript -->
+      <div class="interim-bar" id="interim-bar" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+        <span id="interim-text">Listening...</span>
       </div>
 
       <!-- Status bar -->
-      <div class="chat-status-bar" id="chatStatusBar">
-        <div class="csb-dots" id="csbDots">
+      <div class="status-bar" id="status-bar">
+        <div class="status-dots" id="status-dots" style="display:none">
           <span></span><span></span><span></span>
         </div>
-        <span id="chatStatusText">Max is ready</span>
+        <span class="status-msg" id="status-msg">Ask Max anything about your tech</span>
       </div>
 
-      <!-- Controls -->
-      <div class="chat-controls">
+      <!-- Quick Topics -->
+      <div class="quick-topics">
+        <span class="qt-label">Quick:</span>
+        <button class="qt-btn" data-msg="My Wi-Fi keeps dropping out. What's wrong?">Wi-Fi Drops</button>
+        <button class="qt-btn" data-msg="My PC is running really slowly. How can I speed it up?">Slow PC</button>
+        <button class="qt-btn" data-msg="How do I set up my TV and soundbar?">TV Setup</button>
+        <button class="qt-btn" data-msg="I'm moving in next week. What tech do I need to set up?">Move In/Out</button>
+        <button class="qt-btn" data-msg="I think I have a virus on my computer. What should I do?">Virus Help</button>
+        <button class="qt-btn" data-msg="I have no internet. How do I troubleshoot it?">No Internet</button>
+      </div>
 
-        <!-- Text input (always available) -->
+      <!-- Input Row -->
+      <div class="input-row">
+        <button class="mic-btn" id="mic-btn" aria-label="Start voice input">
+          <div class="mic-rings">
+            <div class="mic-ring mr1"></div>
+            <div class="mic-ring mr2"></div>
+          </div>
+          <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+        </button>
+
         <div class="text-input-wrap">
           <input
             type="text"
-            id="textInput"
-            class="text-input"
-            placeholder="Or type your issue here..."
+            id="text-input"
+            placeholder="Type your question or click the mic..."
             autocomplete="off"
-          />
-          <button class="send-btn" id="sendBtn" aria-label="Send message">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
+            maxlength="500"
+          >
+          <button class="send-btn" id="send-btn" aria-label="Send message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           </button>
         </div>
 
-        <!-- Mic button -->
-        <div class="mic-area">
-          <button class="mic-btn" id="micBtn" aria-label="Start voice input">
-            <div class="mic-rings">
-              <div class="mic-ring mr1"></div>
-              <div class="mic-ring mr2"></div>
-            </div>
-            <svg class="mic-icon mic-icon--on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
-              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
-              <path d="M19 10v2a7 7 0 01-14 0v-2"/>
-              <line x1="12" y1="19" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-            <svg class="mic-icon mic-icon--off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" style="display:none">
-              <line x1="1" y1="1" x2="23" y2="23"/>
-              <path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6"/>
-              <path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23"/>
-              <line x1="12" y1="19" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-          </button>
-          <span class="mic-label" id="micLabel">Tap to speak</span>
-        </div>
-
-        <!-- Stop speaking button -->
-        <button class="stop-btn" id="stopBtn" style="display:none" aria-label="Stop Max speaking">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-            <rect x="6" y="6" width="12" height="12" rx="2"/>
-          </svg>
-          Stop
+        <button class="stop-btn" id="stop-btn" aria-label="Stop speaking" style="display:none">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
         </button>
-
       </div>
 
-      <!-- Browser support warning -->
-      <div class="no-speech-warn" id="noSpeechWarn" style="display:none">
-        <p>&#9888;&#65039; Your browser doesn't support voice input. Please use Chrome or Edge for the full experience, or type your question above.</p>
-      </div>
+    </main>
+  </div>
 
-    </section>
-
-  </main>
-
-  <!-- QUICK TOPICS -->
-  <div class="quick-topics" id="quickTopics">
-    <span class="qt-label">Quick topics:</span>
-    <button class="qt-btn" data-topic="My Wi-Fi keeps dropping out">Wi-Fi Drops</button>
-    <button class="qt-btn" data-topic="My computer is running very slowly">Slow PC</button>
-    <button class="qt-btn" data-topic="I need help setting up my TV">TV Setup</button>
-    <button class="qt-btn" data-topic="I'm moving apartments and need help with my tech setup">Move In/Out</button>
-    <button class="qt-btn" data-topic="I think I have a virus on my computer">Virus Help</button>
-    <button class="qt-btn" data-topic="My internet is not working at all">No Internet</button>
+  <!-- No Speech API Warning -->
+  <div class="no-speech-warning" id="no-speech-warning" style="display:none">
+    <div class="nsw-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <h3>Voice Not Supported</h3>
+      <p>Your browser doesn't support voice input. Please use Chrome or Edge for the full experience. You can still type to chat with Max.</p>
+      <button onclick="document.getElementById('no-speech-warning').style.display='none'" class="nsw-close">Got it</button>
+    </div>
   </div>
 
   <script src="ai-technician.js"></script>
