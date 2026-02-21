@@ -112,6 +112,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
   background: rgba(255,255,255,0.15);
   color: var(--white);
   border: 2px solid rgba(255,255,255,0.4);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .btn-ghost:hover {
@@ -157,6 +158,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
 }
 .navbar.scrolled {
   background: rgba(3,4,94,0.92);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   padding: 12px 0;
   box-shadow: 0 2px 20px rgba(3,4,94,0.3);
@@ -303,6 +305,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
   font-size: 0.85rem;
   font-weight: 500;
   margin-bottom: 24px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .hero h1 { color: var(--white); margin-bottom: 20px; }
@@ -422,7 +425,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
 }
 .svc-icon {
   width: 56px; height: 56px;
-  background: color-mix(in srgb, var(--c) 12%, transparent);
+  background: rgba(0, 180, 216, 0.12);
   border-radius: var(--r-md);
   display: flex; align-items: center; justify-content: center;
   color: var(--c);
@@ -482,6 +485,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: var(--r-md);
   padding: 20px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .mio-card-icon { font-size: 1.8rem; margin-bottom: 8px; }
@@ -830,6 +834,7 @@ h5 { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; }
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: var(--r-md);
   padding: 14px 18px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .channel-icon { font-size: 1.5rem; flex-shrink: 0; }

@@ -18,6 +18,7 @@
   z-index: 200;
   height: 60px;
   background: rgba(3,4,94,0.95);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(0,180,216,0.15);
   display: flex;
@@ -375,6 +376,7 @@
   border: 1px solid rgba(0,180,216,0.2);
   color: rgba(255,255,255,0.92);
   border-radius: 4px 18px 18px 18px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .msg--user .msg-bubble {
@@ -465,6 +467,7 @@
   gap: 14px;
   border-top: 1px solid rgba(0,180,216,0.1);
   background: rgba(3,4,94,0.3);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   align-items: center;
 }
@@ -586,6 +589,7 @@
   position: fixed;
   bottom: 0; left: 300px; right: 0;
   background: rgba(3,4,94,0.85);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-top: 1px solid rgba(0,180,216,0.15);
   padding: 10px 24px;
