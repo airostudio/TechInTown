@@ -211,7 +211,7 @@
       }
       const [type, text] = seq.lines[li++];
       const d = document.createElement('div');
-      d.className = type === 'ok' ? 'tline tline-ok' : 'tline';
+      d.className = type === 'ok' ? 'term-line ok' : 'term-line';
       d.textContent = text;
       out.appendChild(d);
       tmr = setTimeout(showLine, 340);
