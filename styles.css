@@ -915,7 +915,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .form-group input.error,
 .form-group select.error { border-color: #FF4D6D; box-shadow: 0 0 0 3px rgba(255,77,109,0.2); }
-.form-group select { cursor: pointer; appearance: none; }
+.form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238892A4' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 44px;
+}
 .form-group select option { background: var(--bg-1); color: var(--text); }
 .form-group textarea { resize: vertical; min-height: 110px; }
 
@@ -1058,15 +1065,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ============================================================
    REVEAL ANIMATIONS
+   reveal-ready is added by JS — without JS, elements are always visible
    ============================================================ */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
+.reveal.reveal-ready {
+  opacity: 0;
+  transform: translateY(30px);
+}
 .reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* ============================================================

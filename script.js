@@ -295,6 +295,9 @@
     const reveals = document.querySelectorAll('.reveal');
     if (!reveals.length) return;
 
+    // Mark for animation — without this class, elements default to visible (no-JS safe)
+    reveals.forEach(el => el.classList.add('reveal-ready'));
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -303,9 +306,12 @@
         setTimeout(() => el.classList.add('visible'), delay);
         observer.unobserve(el);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05 });
 
     reveals.forEach(el => observer.observe(el));
+
+    // Safety fallback: guarantee all content is visible within 2.5s no matter what
+    setTimeout(() => reveals.forEach(el => el.classList.add('visible')), 2500);
   }
 
   /* ============================================================
