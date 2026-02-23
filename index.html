@@ -3,594 +3,525 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech In Town — IT Support for Apartment Living | Gold Coast</title>
-  <meta name="description" content="Expert IT support for Gold Coast apartment residents. 24/7 availability, AI-powered diagnostics, and trusted technicians. Book your Tech In Town specialist today.">
+  <title>Tech In Town — IT Support for Gold Coast Apartments</title>
+  <meta name="description" content="24/7 expert IT support for Gold Coast apartment residents. Book a specialist or talk to Max, our AI technician.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <canvas id="particles-canvas"></canvas>
+<!-- ═══ NAV ═══════════════════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">[TECH<span>IN</span>TOWN]</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#move">Move In/Out</a></li>
+      <li><a href="#max">Max AI</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#book" class="nav-book">Book Now</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#home" class="nav-logo">
-        <span class="logo-bracket">[</span>TECH<span class="logo-accent">IN</span>TOWN<span class="logo-bracket">]</span>
-      </a>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#move-services">Move In/Out</a></li>
-        <li><a href="#max-ai">Max AI</a></li>
-        <li><a href="#why-us">Why Us</a></li>
-        <li><a href="#book" class="nav-cta">Book Now</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+<!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <canvas id="canvas"></canvas>
+  <div class="hero-inner">
 
-  <!-- Hero -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="badge-pulse"></span>
-          <span class="badge-text">LIVE &mdash; Gold Coast IT Support</span>
-        </div>
-        <h1 class="hero-title">
-          Your Tech Problems<br>
-          <span class="gradient-text">Solved. Fast.</span>
-        </h1>
-        <p class="hero-subtitle">
-          24/7 expert IT support built for Gold Coast apartment living.<br>
-          Wi-Fi drops to full move-in setups &mdash; we handle it all.
-        </p>
-        <div class="hero-ctas">
-          <a href="#book" class="btn btn-primary">
-            Book a Specialist
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="ai-technician.html" class="btn btn-ghost">
-            <span class="ai-pulse"></span>
-            Talk to Max &mdash; AI Tech
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-num" data-target="35">0</span><span class="stat-unit">+</span>
-            <span class="stat-label">Years Exp.</span>
-          </div>
-          <div class="stat-line"></div>
-          <div class="stat">
-            <span class="stat-num" data-target="24">0</span><span class="stat-unit">/7</span>
-            <span class="stat-label">Available</span>
-          </div>
-          <div class="stat-line"></div>
-          <div class="stat">
-            <span class="stat-num" data-target="100">0</span><span class="stat-unit">%</span>
-            <span class="stat-label">Success Rate</span>
-          </div>
-        </div>
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span class="dot-green"></span>
+        LIVE &mdash; Gold Coast IT Support
       </div>
-
-      <div class="hero-terminal">
-        <div class="terminal-window">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <span class="tdot red"></span>
-              <span class="tdot yellow"></span>
-              <span class="tdot green"></span>
-            </div>
-            <span class="terminal-title">max@techintown ~ %</span>
-          </div>
-          <div class="terminal-body" id="terminal-body">
-            <div class="term-line" id="term-active">
-              <span class="term-prompt">$ </span><span id="term-cmd"></span><span class="term-cursor" id="term-cursor">&#9608;</span>
-            </div>
-            <div id="term-output"></div>
-          </div>
+      <h1>Your Tech Problems<br><span class="cyan">Solved. Fast.</span></h1>
+      <p class="hero-sub">24/7 expert IT support built for Gold Coast apartment living. Wi-Fi, AV, PC, move-in setups &mdash; we handle everything.</p>
+      <div class="hero-actions">
+        <a href="#book" class="btn btn-primary">Book a Specialist &rarr;</a>
+        <a href="ai-technician.html" class="btn btn-outline">
+          <span class="dot-green"></span> Talk to Max AI
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <strong class="ctr" data-to="35">0</strong><span>+</span>
+          <small>Years Exp.</small>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <strong>24</strong><span>/7</span>
+          <small>Available</small>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <strong class="ctr" data-to="100">0</strong><span>%</span>
+          <small>Success Rate</small>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Services -->
-  <section class="services" id="services">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">// SERVICES</div>
-        <h2>What We Fix</h2>
-        <p>Expert solutions for every tech problem in your apartment</p>
-      </div>
-      <div class="services-grid">
-
-        <div class="service-card reveal" data-delay="0">
-          <div class="card-glow"></div>
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-          <h3>PC &amp; Laptop Support</h3>
-          <p>From sluggish startups to full rebuilds &mdash; we diagnose and fix everything.</p>
-          <ul class="service-features">
-            <li>Virus &amp; malware removal</li>
-            <li>Speed optimization</li>
-            <li>Data backup &amp; recovery</li>
-            <li>Software installation</li>
-          </ul>
-          <a href="#book" class="card-link">Book Now <span>&rarr;</span></a>
+    <div class="hero-term">
+      <div class="term-win">
+        <div class="term-bar">
+          <span class="tb red"></span>
+          <span class="tb yellow"></span>
+          <span class="tb green"></span>
+          <span class="term-title">max@techintown ~ $</span>
         </div>
-
-        <div class="service-card reveal" data-delay="100">
-          <div class="card-glow"></div>
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        <div class="term-body">
+          <div class="term-row">
+            <span class="term-ps">$&nbsp;</span>
+            <span id="term-text"></span><span class="term-cur" id="term-cur">&#9608;</span>
           </div>
-          <h3>Internet &amp; Wi-Fi</h3>
-          <p>Dead zones, slow speeds, dropped connections &mdash; we make Wi-Fi bulletproof.</p>
-          <ul class="service-features">
-            <li>Router setup &amp; config</li>
-            <li>Mesh network install</li>
-            <li>NBN diagnostics</li>
-            <li>Security hardening</li>
-          </ul>
-          <a href="#book" class="card-link">Book Now <span>&rarr;</span></a>
+          <div id="term-out"></div>
         </div>
-
-        <div class="service-card reveal" data-delay="200">
-          <div class="card-glow"></div>
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
-          </div>
-          <h3>Audio Visual</h3>
-          <p>TV mounting, surround sound, smart home &mdash; your living room perfected.</p>
-          <ul class="service-features">
-            <li>TV wall mounting</li>
-            <li>Soundbar &amp; speaker setup</li>
-            <li>Smart TV configuration</li>
-            <li>Gaming console setup</li>
-          </ul>
-          <a href="#book" class="card-link">Book Now <span>&rarr;</span></a>
-        </div>
-
-        <div class="service-card service-card--featured reveal" data-delay="300">
-          <div class="card-glow"></div>
-          <div class="featured-tag">Most Popular</div>
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <h3>Move In / Move Out</h3>
-          <p>Day-one ready. We handle all your tech so you can focus on moving.</p>
-          <ul class="service-features">
-            <li>Full apartment tech setup</li>
-            <li>Internet &amp; TV first-day ready</li>
-            <li>Smart home configuration</li>
-            <li>Equipment pack-down</li>
-          </ul>
-          <a href="#book" class="card-link">Book Now <span>&rarr;</span></a>
-        </div>
-
       </div>
     </div>
-  </section>
 
-  <!-- Move In/Out -->
-  <section class="move-section" id="move-services">
-    <div class="container">
-      <div class="move-grid">
-        <div class="move-info reveal">
-          <div class="section-tag">// SPECIALTY</div>
-          <h2>Move In / Move Out<br><span class="gradient-text">Done Right.</span></h2>
-          <p>Moving apartments is stressful enough. We handle every piece of tech &mdash; so on day one, your internet is live, your TV is mounted, and everything just works.</p>
-          <div class="move-cards">
-            <div class="move-card">
-              <div class="move-card-header">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                Move In Setup
-              </div>
-              <ul>
-                <li>Internet connected &amp; optimised</li>
-                <li>TV mounted &amp; calibrated</li>
-                <li>All devices configured</li>
-                <li>Smart home activated</li>
-                <li>Cables hidden &amp; managed</li>
-              </ul>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ════════════════════════════════════════════════════════════ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">// SERVICES</div>
+      <h2>What We Fix</h2>
+      <p>Expert solutions for every tech problem in your apartment</p>
+    </div>
+    <div class="cards-4">
+
+      <div class="card">
+        <div class="card-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>PC &amp; Laptop Support</h3>
+        <p>Sluggish startups to full rebuilds &mdash; we diagnose and fix everything.</p>
+        <ul>
+          <li>Virus &amp; malware removal</li>
+          <li>Speed optimisation</li>
+          <li>Data backup &amp; recovery</li>
+          <li>Software installation</li>
+        </ul>
+        <a href="#book" class="card-cta">Book Now &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        </div>
+        <h3>Internet &amp; Wi-Fi</h3>
+        <p>Dead zones, slow speeds, dropped connections &mdash; Wi-Fi made bulletproof.</p>
+        <ul>
+          <li>Router setup &amp; config</li>
+          <li>Mesh network install</li>
+          <li>NBN diagnostics</li>
+          <li>Security hardening</li>
+        </ul>
+        <a href="#book" class="card-cta">Book Now &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+        </div>
+        <h3>Audio Visual</h3>
+        <p>TV mounting, surround sound, smart home &mdash; your living room perfected.</p>
+        <ul>
+          <li>TV wall mounting</li>
+          <li>Soundbar setup</li>
+          <li>Smart TV config</li>
+          <li>Gaming console setup</li>
+        </ul>
+        <a href="#book" class="card-cta">Book Now &rarr;</a>
+      </div>
+
+      <div class="card card-featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="card-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Move In / Move Out</h3>
+        <p>Day-one ready. We handle all your tech so you can focus on moving.</p>
+        <ul>
+          <li>Full apartment tech setup</li>
+          <li>Internet &amp; TV first-day</li>
+          <li>Smart home config</li>
+          <li>Equipment pack-down</li>
+        </ul>
+        <a href="#book" class="card-cta">Book Now &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MOVE IN / OUT ════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="move">
+  <div class="container">
+    <div class="split">
+      <div class="split-copy">
+        <div class="sec-tag">// SPECIALTY</div>
+        <h2>Move In / Move Out<br><span class="cyan">Done Right.</span></h2>
+        <p>Moving is stressful enough. We handle every piece of tech &mdash; so on day one, your internet is live, your TV is mounted, and everything just works.</p>
+        <div class="move-panels">
+          <div class="move-panel">
+            <div class="move-panel-head">&rarr; Move In Setup</div>
+            <ul>
+              <li>Internet connected &amp; optimised</li>
+              <li>TV mounted &amp; calibrated</li>
+              <li>All devices configured</li>
+              <li>Smart home activated</li>
+              <li>Cables hidden &amp; managed</li>
+            </ul>
+          </div>
+          <div class="move-panel">
+            <div class="move-panel-head">&larr; Move Out Pack-Down</div>
+            <ul>
+              <li>Devices safely disconnected</li>
+              <li>TVs unmounted &amp; wrapped</li>
+              <li>Equipment packed properly</li>
+              <li>Wall patches checked</li>
+              <li>Bond return ready</li>
+            </ul>
+          </div>
+        </div>
+        <a href="#book" class="btn btn-primary">Book Move Service</a>
+      </div>
+      <div class="split-visual">
+        <div class="apt-box">
+          <div class="apt-title">YOUR APARTMENT</div>
+          <div class="apt-grid">
+            <div class="apt-room">
+              <div class="apt-emoji">&#128250;</div>
+              <div class="apt-name">Living Room</div>
+              <div class="apt-ok"><span class="dot-green-sm"></span>Connected</div>
             </div>
-            <div class="move-card">
-              <div class="move-card-header">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Move Out Pack-Down
-              </div>
-              <ul>
-                <li>Devices safely disconnected</li>
-                <li>TVs unmounted &amp; wrapped</li>
-                <li>Equipment packed properly</li>
-                <li>Wall patches checked</li>
-                <li>Bond return ready</li>
-              </ul>
+            <div class="apt-room">
+              <div class="apt-emoji">&#128187;</div>
+              <div class="apt-name">Home Office</div>
+              <div class="apt-ok"><span class="dot-green-sm"></span>Connected</div>
+            </div>
+            <div class="apt-room">
+              <div class="apt-emoji">&#128241;</div>
+              <div class="apt-name">Bedroom</div>
+              <div class="apt-ok"><span class="dot-green-sm"></span>Connected</div>
+            </div>
+            <div class="apt-room">
+              <div class="apt-emoji">&#128266;</div>
+              <div class="apt-name">Entertainment</div>
+              <div class="apt-ok"><span class="dot-green-sm"></span>Connected</div>
             </div>
           </div>
-          <a href="#book" class="btn btn-primary">Book Move Service</a>
-        </div>
-
-        <div class="move-visual reveal">
-          <div class="apt-visual">
-            <div class="apt-label">YOUR APARTMENT</div>
-            <div class="apt-rooms">
-              <div class="apt-room">
-                <div class="room-emoji">&#128250;</div>
-                <div class="room-name">Living Room</div>
-                <div class="room-status"><span class="status-dot-sm"></span>Connected</div>
-              </div>
-              <div class="apt-room">
-                <div class="room-emoji">&#128187;</div>
-                <div class="room-name">Home Office</div>
-                <div class="room-status"><span class="status-dot-sm"></span>Connected</div>
-              </div>
-              <div class="apt-room">
-                <div class="room-emoji">&#128241;</div>
-                <div class="room-name">Bedroom</div>
-                <div class="room-status"><span class="status-dot-sm"></span>Connected</div>
-              </div>
-              <div class="apt-room">
-                <div class="room-emoji">&#128266;</div>
-                <div class="room-name">Entertainment</div>
-                <div class="room-status"><span class="status-dot-sm"></span>Connected</div>
-              </div>
-            </div>
-            <div class="apt-wifi-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
-              Full Coverage
-            </div>
+          <div class="apt-wifi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+            Full Wi-Fi Coverage
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Max AI -->
-  <section class="max-section" id="max-ai">
-    <div class="container">
-      <div class="max-grid">
-
-        <div class="max-orb-wrap reveal">
-          <div class="max-orb-container">
-            <div class="orb-ring r1"></div>
-            <div class="orb-ring r2"></div>
-            <div class="orb-ring r3"></div>
+<!-- ═══ MAX AI ════════════════════════════════════════════════════════════════ -->
+<section class="section" id="max">
+  <div class="container">
+    <div class="split split-rev">
+      <div class="split-visual" style="text-align:center">
+        <div class="orb-wrap">
+          <div class="orb">
+            <div class="orb-ring orb-r1"></div>
+            <div class="orb-ring orb-r2"></div>
+            <div class="orb-ring orb-r3"></div>
             <div class="orb-core">MS</div>
           </div>
-          <div class="max-eq">
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
+          <div class="orb-eq">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
-          <div class="max-online-badge">
-            <span class="badge-pulse"></span>
-            Online &mdash; Ready to Help
+          <div class="orb-badge">
+            <span class="dot-green"></span> Online &mdash; Ready to Help
           </div>
         </div>
+      </div>
+      <div class="split-copy">
+        <div class="sec-tag">// AI TECHNICIAN</div>
+        <h2>Meet <span class="cyan">Max Sullivan</span></h2>
+        <p class="lh">35+ years of IT expertise, available 24/7. Max speaks plain English, diagnoses your tech problems via voice or text, and gives you real solutions instantly.</p>
+        <div class="tag-row">
+          <span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">Linux</span>
+          <span class="tag">NBN</span><span class="tag">Smart Home</span><span class="tag">AV</span>
+          <span class="tag">Wi-Fi</span><span class="tag">iOS</span><span class="tag">Android</span>
+          <span class="tag">Security</span><span class="tag">Cloud</span><span class="tag">Networking</span>
+        </div>
+        <div class="feat-list">
+          <div class="feat-item">
+            <div class="feat-ico">&#127897;</div>
+            <div><strong>Voice Activated</strong><p>Just speak &mdash; Max listens and responds</p></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-ico">&#9889;</div>
+            <div><strong>Instant Diagnosis</strong><p>Real solutions, not generic advice</p></div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-ico">&#128266;</div>
+            <div><strong>Real Human Voice</strong><p>Powered by ElevenLabs AI voice tech</p></div>
+          </div>
+        </div>
+        <a href="ai-technician.html" class="btn btn-primary">Talk to Max Now &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="max-info reveal">
-          <div class="section-tag">// AI TECHNICIAN</div>
-          <h2>Meet <span class="gradient-text">Max Sullivan</span></h2>
-          <p class="max-desc">35+ years of IT expertise, available 24/7. Max speaks plain English, diagnoses your tech problems via voice or text, and gives you real solutions &mdash; instantly.</p>
-          <div class="max-tags">
-            <span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">Linux</span>
-            <span class="tag">NBN</span><span class="tag">Smart Home</span><span class="tag">AV</span>
-            <span class="tag">Wi-Fi</span><span class="tag">iOS</span><span class="tag">Android</span>
-            <span class="tag">Security</span><span class="tag">Cloud</span><span class="tag">Networking</span>
+<!-- ═══ WHY US ════════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="why">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">// WHY CHOOSE US</div>
+      <h2>Built Different.</h2>
+      <p>Specialists in apartment living tech &mdash; not your average IT company</p>
+    </div>
+    <div class="cards-3">
+      <div class="why-card">
+        <div class="why-ico">&#127754;</div>
+        <h3>Always Riding the Wave</h3>
+        <p>24/7, 365 days. Tech emergencies don't keep business hours &mdash; neither do we.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ico">&#127970;</div>
+        <h3>Apartment Specialists</h3>
+        <p>Body corp Wi-Fi, NBN connection points, wall mounts &mdash; we know it all.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ico">&#9889;</div>
+        <h3>Lightning Fast Response</h3>
+        <p>Same-day service available. Tech downtime = lost time. We move fast.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ico">&#128172;</div>
+        <h3>Plain English, Always</h3>
+        <p>No jargon, no confusion. Clear explanations so you stay in control.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ico">&#9989;</div>
+        <h3>Trusted &amp; Verified</h3>
+        <p>Background-checked technicians. Your home and privacy always protected.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ico">&#128205;</div>
+        <h3>Gold Coast Local</h3>
+        <p>Based in Surfers Paradise. We know the area, buildings, and infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═════════════════════════════════════════════════════════ -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">// REVIEWS</div>
+      <h2>What Residents Say</h2>
+    </div>
+    <div class="tslider">
+      <div class="ttrack" id="ttrack">
+        <div class="tcard">
+          <div class="tstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Max sorted my Wi-Fi dead zones in minutes via voice. Tech came out same day and installed a mesh system. Absolute legends!"</p>
+          <div class="tauthor"><div class="tavatar">SK</div><div><strong>Sarah K.</strong><span>Surfers Paradise</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Move-in day was so smooth. Everything set up before I even unpacked &mdash; TV mounted, internet connected, smart home working."</p>
+          <div class="tauthor"><div class="tavatar">MR</div><div><strong>Marcus R.</strong><span>Broadbeach</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"I was losing my mind over my laptop. Max diagnosed it in 2 minutes. The tech had it sorted within the hour. Incredible!"</p>
+          <div class="tauthor"><div class="tavatar">JL</div><div><strong>Jessica L.</strong><span>Main Beach</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Finally an IT company that speaks plain English! No jargon, no upselling. Just fast, professional service. Best around."</p>
+          <div class="tauthor"><div class="tavatar">DT</div><div><strong>David T.</strong><span>Southport</span></div></div>
+        </div>
+      </div>
+      <div class="tcontrols">
+        <button class="tarr" id="tprev">&larr;</button>
+        <div class="tdots" id="tdots">
+          <button class="tdot active" data-i="0"></button>
+          <button class="tdot" data-i="1"></button>
+          <button class="tdot" data-i="2"></button>
+          <button class="tdot" data-i="3"></button>
+        </div>
+        <button class="tarr" id="tnext">&rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BOOKING ══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="book">
+  <div class="container">
+    <div class="book-grid">
+
+      <div class="book-info">
+        <div class="sec-tag">// GET STARTED</div>
+        <h2>Book a<br><span class="cyan">Specialist</span></h2>
+        <p>Fill the form and we'll confirm within the hour.</p>
+        <div class="clist">
+          <a href="tel:1800832448" class="citem">
+            <span class="cico">&#128222;</span>
+            <span><strong>Call Us Now</strong><em>1800 TECH IT (1800 832 448)</em></span>
+          </a>
+          <a href="ai-technician.html" class="citem">
+            <span class="cico">&#129302;</span>
+            <span><strong>Talk to Max AI</strong><em>Instant diagnosis &mdash; free</em></span>
+          </a>
+          <div class="citem">
+            <span class="cico">&#128205;</span>
+            <span><strong>Based In</strong><em>Surfers Paradise QLD 4217</em></span>
           </div>
-          <div class="max-features-list">
-            <div class="max-feature-item">
-              <div class="mfi-icon">&#127897;</div>
-              <div>
-                <strong>Voice Activated</strong>
-                <p>Just speak &mdash; Max listens and responds naturally</p>
-              </div>
-            </div>
-            <div class="max-feature-item">
-              <div class="mfi-icon">&#9889;</div>
-              <div>
-                <strong>Instant Diagnosis</strong>
-                <p>Real solutions, not generic scripted advice</p>
-              </div>
-            </div>
-            <div class="max-feature-item">
-              <div class="mfi-icon">&#128266;</div>
-              <div>
-                <strong>Real Human Voice</strong>
-                <p>Powered by ElevenLabs AI voice technology</p>
-              </div>
-            </div>
-          </div>
-          <a href="ai-technician.html" class="btn btn-primary">
-            Talk to Max Now
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <a href="mailto:hello@techintown.com.au" class="citem">
+            <span class="cico">&#9993;</span>
+            <span><strong>Email Us</strong><em>hello@techintown.com.au</em></span>
           </a>
         </div>
+      </div>
 
+      <div class="book-form-wrap">
+        <form id="bform" novalidate>
+          <div class="frow">
+            <div class="fgrp">
+              <label for="fn">First Name <span class="req">*</span></label>
+              <input type="text" id="fn" name="firstName" placeholder="Jordan" autocomplete="given-name">
+            </div>
+            <div class="fgrp">
+              <label for="ln">Last Name</label>
+              <input type="text" id="ln" name="lastName" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fgrp">
+              <label for="em">Email <span class="req">*</span></label>
+              <input type="email" id="em" name="email" placeholder="you@email.com" autocomplete="email">
+            </div>
+            <div class="fgrp">
+              <label for="ph">Phone</label>
+              <input type="tel" id="ph" name="phone" placeholder="04XX XXX XXX" autocomplete="tel">
+            </div>
+          </div>
+          <div class="fgrp">
+            <label for="sv">Service Needed <span class="req">*</span></label>
+            <select id="sv" name="service">
+              <option value="">Select a service...</option>
+              <option value="pc">PC &amp; Laptop Support</option>
+              <option value="internet">Internet &amp; Wi-Fi</option>
+              <option value="av">Audio Visual</option>
+              <option value="movein">Move In Setup</option>
+              <option value="moveout">Move Out Pack-Down</option>
+              <option value="other">Other / Not Sure</option>
+            </select>
+          </div>
+          <div class="fgrp" id="md-wrap" style="display:none">
+            <label for="md">Move Date</label>
+            <input type="date" id="md" name="moveDate">
+          </div>
+          <div class="fgrp">
+            <label for="addr">Apartment Address</label>
+            <input type="text" id="addr" name="address" placeholder="Unit 12, 45 Cavill Ave, Surfers Paradise">
+          </div>
+          <div class="fgrp">
+            <label for="msg">Tell Us More</label>
+            <textarea id="msg" name="message" placeholder="Describe the issue or what you need..." rows="4"></textarea>
+          </div>
+          <div class="fgrp">
+            <label>Urgency</label>
+            <div class="urg-row">
+              <label class="urg-opt"><input type="radio" name="urgency" value="asap"><span>&#128680; ASAP</span></label>
+              <label class="urg-opt"><input type="radio" name="urgency" value="today" checked><span>&#128197; Today</span></label>
+              <label class="urg-opt"><input type="radio" name="urgency" value="thisweek"><span>&#128467; This Week</span></label>
+              <label class="urg-opt"><input type="radio" name="urgency" value="flexible"><span>&#128522; Flexible</span></label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="bsubmit">
+            <span id="btext">Send Booking Request</span>
+            <span id="bload" style="display:none">Sending...</span>
+          </button>
+          <div id="berr" class="form-err" style="display:none"></div>
+        </form>
+
+        <div id="bsuccess" class="book-success" style="display:none">
+          <div class="success-ico">&#9989;</div>
+          <h3>Booking Received!</h3>
+          <p>We'll confirm within the hour. For urgent help:</p>
+          <a href="tel:1800832448" class="btn btn-primary">&#128222; 1800 832 448</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="logo">[TECH<span>IN</span>TOWN]</a>
+        <p>Expert IT support for Gold Coast apartment living. 24/7, 365 days a year.</p>
+        <div class="footer-soc">
+          <a href="#" class="soc-btn">FB</a>
+          <a href="#" class="soc-btn">IG</a>
+          <a href="#" class="soc-btn">LI</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">PC &amp; Laptop</a></li>
+          <li><a href="#services">Internet &amp; Wi-Fi</a></li>
+          <li><a href="#services">Audio Visual</a></li>
+          <li><a href="#move">Move In / Out</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Help</h4>
+        <ul>
+          <li><a href="ai-technician.html">Talk to Max AI</a></li>
+          <li><a href="#book">Book a Tech</a></li>
+          <li><a href="tel:1800832448">1800 832 448</a></li>
+          <li><a href="mailto:hello@techintown.com.au">Email Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#why">Why Us</a></li>
+          <li><a href="#max">Max AI</a></li>
+          <li><a href="#book">Contact</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <!-- Why Us -->
-  <section class="why-us" id="why-us">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">// WHY CHOOSE US</div>
-        <h2>Built Different.</h2>
-        <p>Specialists in apartment living tech &mdash; not your average IT company</p>
-      </div>
-      <div class="why-grid">
-        <div class="why-card reveal" data-delay="0">
-          <div class="why-icon">&#127754;</div>
-          <h3>Always Riding the Wave</h3>
-          <p>24/7, 365 days. Tech emergencies don't keep business hours &mdash; neither do we.</p>
-        </div>
-        <div class="why-card reveal" data-delay="100">
-          <div class="why-icon">&#127970;</div>
-          <h3>Apartment Specialists</h3>
-          <p>We know apartment tech inside out &mdash; body corp Wi-Fi, NBN connection points, all of it.</p>
-        </div>
-        <div class="why-card reveal" data-delay="200">
-          <div class="why-icon">&#9889;</div>
-          <h3>Lightning Fast Response</h3>
-          <p>Same-day service available. Tech downtime equals lost productivity. We move fast.</p>
-        </div>
-        <div class="why-card reveal" data-delay="300">
-          <div class="why-icon">&#128172;</div>
-          <h3>Plain English, Always</h3>
-          <p>No jargon, no confusion. We explain everything clearly so you stay in control.</p>
-        </div>
-        <div class="why-card reveal" data-delay="400">
-          <div class="why-icon">&#9989;</div>
-          <h3>Trusted &amp; Verified</h3>
-          <p>Background-checked technicians. Your home and privacy protected at all times.</p>
-        </div>
-        <div class="why-card reveal" data-delay="500">
-          <div class="why-icon">&#128205;</div>
-          <h3>Gold Coast Local</h3>
-          <p>Based in Surfers Paradise. We know the area, the buildings, and the NBN infrastructure.</p>
-        </div>
-      </div>
+    <div class="footer-bar">
+      <span>&copy; 2025 Tech In Town. All rights reserved.</span>
+      <span>Surfers Paradise QLD 4217 &middot; ABN: XX XXX XXX XXX</span>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <!-- Testimonials -->
-  <section class="testimonials">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">// REVIEWS</div>
-        <h2>What Residents Say</h2>
-      </div>
-      <div class="testi-slider">
-        <div class="testi-track" id="testi-track">
-          <div class="testi-card">
-            <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p>"Max sorted my Wi-Fi dead zones in minutes via voice. Then the tech came out same day and installed a mesh system. Absolute legends!"</p>
-            <div class="testi-author">
-              <div class="testi-avatar">SK</div>
-              <div><strong>Sarah K.</strong><span>Surfers Paradise</span></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p>"Move-in day was so smooth. Everything set up before I even unpacked &mdash; TV mounted, internet connected, smart home working. Worth every cent."</p>
-            <div class="testi-author">
-              <div class="testi-avatar">MR</div>
-              <div><strong>Marcus R.</strong><span>Broadbeach</span></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p>"I was losing my mind over my laptop. Max diagnosed it in 2 minutes. The tech had it sorted within the hour. Incredible service."</p>
-            <div class="testi-author">
-              <div class="testi-avatar">JL</div>
-              <div><strong>Jessica L.</strong><span>Main Beach</span></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p>"Finally an IT company that speaks plain English! No jargon, no upselling. Just friendly, fast, professional service. Best around."</p>
-            <div class="testi-author">
-              <div class="testi-avatar">DT</div>
-              <div><strong>David T.</strong><span>Southport</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="testi-controls">
-          <button class="testi-btn" id="testi-prev" aria-label="Previous">&larr;</button>
-          <div class="testi-dots" id="testi-dots">
-            <button class="dot active" data-index="0" aria-label="Review 1"></button>
-            <button class="dot" data-index="1" aria-label="Review 2"></button>
-            <button class="dot" data-index="2" aria-label="Review 3"></button>
-            <button class="dot" data-index="3" aria-label="Review 4"></button>
-          </div>
-          <button class="testi-btn" id="testi-next" aria-label="Next">&rarr;</button>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Floating chat bubble -->
+<a href="ai-technician.html" class="fab" id="fab">
+  <span class="dot-green"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  Talk to Max
+</a>
 
-  <!-- Booking -->
-  <section class="booking" id="book">
-    <div class="container">
-      <div class="booking-grid">
-
-        <div class="booking-info reveal">
-          <div class="section-tag">// GET STARTED</div>
-          <h2>Book a<br><span class="gradient-text">Specialist</span></h2>
-          <p>Fill the form and we'll confirm within the hour. Urgent? Call us directly.</p>
-          <div class="contact-methods">
-            <a href="tel:1800832448" class="contact-method">
-              <div class="cm-icon">&#128222;</div>
-              <div><strong>Call Us Now</strong><span>1800 TECH IT (1800 832 448)</span></div>
-            </a>
-            <a href="ai-technician.html" class="contact-method">
-              <div class="cm-icon">&#129302;</div>
-              <div><strong>Talk to Max AI</strong><span>Instant diagnosis &mdash; free</span></div>
-            </a>
-            <div class="contact-method">
-              <div class="cm-icon">&#128205;</div>
-              <div><strong>Based In</strong><span>Surfers Paradise QLD 4217</span></div>
-            </div>
-            <a href="mailto:hello@techintown.com.au" class="contact-method">
-              <div class="cm-icon">&#9993;</div>
-              <div><strong>Email Us</strong><span>hello@techintown.com.au</span></div>
-            </a>
-          </div>
-        </div>
-
-        <div class="booking-form-wrap reveal">
-          <form class="booking-form" id="booking-form" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="firstName">First Name <span class="req">*</span></label>
-                <input type="text" id="firstName" name="firstName" placeholder="Jordan" autocomplete="given-name">
-              </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" placeholder="Smith" autocomplete="family-name">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email <span class="req">*</span></label>
-                <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email">
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" placeholder="04XX XXX XXX" autocomplete="tel">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="service">Service Needed <span class="req">*</span></label>
-              <select id="service" name="service">
-                <option value="">Select a service...</option>
-                <option value="pc">PC &amp; Laptop Support</option>
-                <option value="internet">Internet &amp; Wi-Fi</option>
-                <option value="av">Audio Visual</option>
-                <option value="movein">Move In Setup</option>
-                <option value="moveout">Move Out Pack-Down</option>
-                <option value="other">Other / Not Sure</option>
-              </select>
-            </div>
-            <div class="form-group" id="move-date-group" style="display:none">
-              <label for="moveDate">Move Date</label>
-              <input type="date" id="moveDate" name="moveDate">
-            </div>
-            <div class="form-group">
-              <label for="address">Apartment Address</label>
-              <input type="text" id="address" name="address" placeholder="Unit 12, 45 Cavill Ave, Surfers Paradise" autocomplete="street-address">
-            </div>
-            <div class="form-group">
-              <label for="message">Tell Us More</label>
-              <textarea id="message" name="message" placeholder="Describe the issue or what you need..." rows="4"></textarea>
-            </div>
-            <div class="form-group">
-              <label>Urgency</label>
-              <div class="urgency-row">
-                <label class="urgency-opt">
-                  <input type="radio" name="urgency" value="asap">
-                  <span>&#128680; ASAP</span>
-                </label>
-                <label class="urgency-opt">
-                  <input type="radio" name="urgency" value="today" checked>
-                  <span>&#128197; Today</span>
-                </label>
-                <label class="urgency-opt">
-                  <input type="radio" name="urgency" value="thisweek">
-                  <span>&#128467; This Week</span>
-                </label>
-                <label class="urgency-opt">
-                  <input type="radio" name="urgency" value="flexible">
-                  <span>&#128522; Flexible</span>
-                </label>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
-              <span id="btn-text">Send Booking Request</span>
-              <span id="btn-loading" style="display:none">Sending...</span>
-            </button>
-            <div class="form-error" id="form-error" style="display:none"></div>
-          </form>
-
-          <div class="booking-success" id="booking-success" style="display:none">
-            <div class="success-icon">&#9989;</div>
-            <h3>Booking Received!</h3>
-            <p>We'll call or email within the hour to confirm. For urgent help, call us now:</p>
-            <a href="tel:1800832448" class="btn btn-primary">&#128222; 1800 832 448</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#home" class="nav-logo">
-            <span class="logo-bracket">[</span>TECH<span class="logo-accent">IN</span>TOWN<span class="logo-bracket">]</span>
-          </a>
-          <p>Expert IT support for Gold Coast apartment living. 24/7, 365 days a year.</p>
-          <div class="footer-socials">
-            <a href="#" aria-label="Facebook" class="social-link">FB</a>
-            <a href="#" aria-label="Instagram" class="social-link">IG</a>
-            <a href="#" aria-label="LinkedIn" class="social-link">LI</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Services</h4>
-          <ul>
-            <li><a href="#services">PC &amp; Laptop</a></li>
-            <li><a href="#services">Internet &amp; Wi-Fi</a></li>
-            <li><a href="#services">Audio Visual</a></li>
-            <li><a href="#move-services">Move In / Out</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Get Help</h4>
-          <ul>
-            <li><a href="ai-technician.html">Talk to Max AI</a></li>
-            <li><a href="#book">Book a Tech</a></li>
-            <li><a href="tel:1800832448">1800 832 448</a></li>
-            <li><a href="mailto:hello@techintown.com.au">Email Us</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#max-ai">Max AI</a></li>
-            <li><a href="#book">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; 2025 Tech In Town. All rights reserved.</span>
-        <span>Surfers Paradise QLD 4217 &nbsp;&middot;&nbsp; ABN: XX XXX XXX XXX</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Floating Chat -->
-  <a href="ai-technician.html" class="float-chat" id="float-chat" aria-label="Talk to Max AI">
-    <span class="float-pulse"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-    <span class="float-label">Talk to Max</span>
-  </a>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

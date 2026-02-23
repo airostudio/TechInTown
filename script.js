@@ -1,423 +1,328 @@
-/* ============================================================
-   TECH IN TOWN — Main Site Script
-   Dark Tech Theme | Particles | Terminal | All Interactions
-   ============================================================ */
+/* ================================================================
+   TECH IN TOWN — Main Script
+   ================================================================ */
 
 (function () {
   'use strict';
 
-  /* ============================================================
-     PARTICLE NETWORK BACKGROUND
-     ============================================================ */
-  function initParticles() {
-    const canvas = document.getElementById('particles-canvas');
+  /* ---------------------------------------------------------------
+     PARTICLE CANVAS
+     --------------------------------------------------------------- */
+  function initCanvas() {
+    const canvas = document.getElementById('canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-
-    let W, H, particles = [], animFrame;
-    const PARTICLE_COUNT = 60;
-    const CONNECTION_DIST = 140;
-    const PARTICLE_SPEED = 0.3;
-    const CYAN = '0,212,255';
+    let W, H, pts = [], raf;
+    const N = 55, DIST = 130, SPEED = 0.28;
+    const C = '0,212,255';
 
     function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
     }
 
-    function makeParticle() {
-      return {
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * PARTICLE_SPEED,
-        vy: (Math.random() - 0.5) * PARTICLE_SPEED,
-        r: Math.random() * 2 + 1
-      };
+    function mkPt() {
+      return { x: Math.random() * W, y: Math.random() * H,
+               vx: (Math.random() - .5) * SPEED,
+               vy: (Math.random() - .5) * SPEED,
+               r: Math.random() * 1.5 + .8 };
     }
 
-    function init() {
-      resize();
-      particles = Array.from({ length: PARTICLE_COUNT }, makeParticle);
-    }
-
-    function draw() {
+    function frame() {
       ctx.clearRect(0, 0, W, H);
-
-      // Update + draw dots
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = W;
-        if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H;
-        if (p.y > H) p.y = 0;
-
+      for (const p of pts) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${CYAN},0.5)`;
+        ctx.fillStyle = `rgba(${C},.45)`;
         ctx.fill();
       }
-
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < CONNECTION_DIST) {
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.2;
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < DIST) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(${CYAN},${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(${C},${(1 - d / DIST) * .18})`;
+            ctx.lineWidth = .7;
             ctx.stroke();
           }
         }
       }
-
-      animFrame = requestAnimationFrame(draw);
+      raf = requestAnimationFrame(frame);
     }
 
-    init();
-    draw();
-
-    const resizeObserver = new ResizeObserver(() => { resize(); });
-    resizeObserver.observe(document.body);
-    window.addEventListener('resize', resize);
+    resize();
+    pts = Array.from({ length: N }, mkPt);
+    frame();
+    window.addEventListener('resize', () => { resize(); pts = Array.from({ length: N }, mkPt); }, { passive: true });
   }
 
-  /* ============================================================
+  /* ---------------------------------------------------------------
      NAVBAR
-     ============================================================ */
-  function initNavbar() {
-    const navbar = document.getElementById('navbar');
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-    if (!navbar) return;
+     --------------------------------------------------------------- */
+  function initNav() {
+    const nav    = document.getElementById('nav');
+    const burger = document.getElementById('burger');
+    const links  = document.getElementById('nav-links');
+    if (!nav) return;
 
-    // Scroll effect
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      nav.classList.toggle('stuck', window.scrollY > 50);
     }, { passive: true });
 
-    // Hamburger toggle
-    if (hamburger && navLinks) {
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        navLinks.classList.toggle('open');
-        document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+    if (burger && links) {
+      burger.addEventListener('click', () => {
+        burger.classList.toggle('open');
+        links.classList.toggle('open');
+        document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
       });
 
-      // Close on link click
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          hamburger.classList.remove('open');
-          navLinks.classList.remove('open');
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          burger.classList.remove('open');
+          links.classList.remove('open');
           document.body.style.overflow = '';
         });
       });
 
-      // Close on outside click
-      document.addEventListener('click', (e) => {
-        if (navLinks.classList.contains('open') &&
-            !navLinks.contains(e.target) &&
-            !hamburger.contains(e.target)) {
-          hamburger.classList.remove('open');
-          navLinks.classList.remove('open');
+      document.addEventListener('click', e => {
+        if (links.classList.contains('open') &&
+            !links.contains(e.target) && !burger.contains(e.target)) {
+          burger.classList.remove('open');
+          links.classList.remove('open');
           document.body.style.overflow = '';
         }
       });
     }
-  }
 
-  /* ============================================================
-     SMOOTH SCROLL
-     ============================================================ */
-  function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        const id = anchor.getAttribute('href').slice(1);
+    // Smooth scroll for all hash links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
         if (!id) return;
-        const target = document.getElementById(id);
-        if (!target) return;
+        const el = document.getElementById(id);
+        if (!el) return;
         e.preventDefault();
-        const offset = 80;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        const top = el.getBoundingClientRect().top + window.scrollY - 78;
         window.scrollTo({ top, behavior: 'smooth' });
       });
     });
   }
 
-  /* ============================================================
-     STAT COUNTER
-     ============================================================ */
-  function initStatCounters() {
-    const stats = document.querySelectorAll('.stat-num[data-target]');
-    if (!stats.length) return;
+  /* ---------------------------------------------------------------
+     STAT COUNTERS  (.ctr[data-to])
+     --------------------------------------------------------------- */
+  function initCounters() {
+    const els = document.querySelectorAll('.ctr[data-to]');
+    if (!els.length) return;
 
-    const observer = new IntersectionObserver((entries) => {
+    const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = parseInt(el.getAttribute('data-target'), 10);
-        const duration = 1200;
-        const start = performance.now();
-
-        function update(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target);
-          if (progress < 1) requestAnimationFrame(update);
+        const el     = entry.target;
+        const target = parseInt(el.getAttribute('data-to'), 10);
+        const dur    = 1100;
+        const t0     = performance.now();
+        function tick(now) {
+          const p = Math.min((now - t0) / dur, 1);
+          el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+          if (p < 1) requestAnimationFrame(tick);
         }
-        requestAnimationFrame(update);
-        observer.unobserve(el);
+        requestAnimationFrame(tick);
+        io.unobserve(el);
       });
     }, { threshold: 0.5 });
 
-    stats.forEach(s => observer.observe(s));
+    els.forEach(el => io.observe(el));
   }
 
-  /* ============================================================
+  /* ---------------------------------------------------------------
      TERMINAL ANIMATION
-     ============================================================ */
+     --------------------------------------------------------------- */
   function initTerminal() {
-    const termCmd  = document.getElementById('term-cmd');
-    const termCursor = document.getElementById('term-cursor');
-    const termOutput = document.getElementById('term-output');
-    if (!termCmd || !termOutput) return;
+    const txt = document.getElementById('term-text');
+    const out = document.getElementById('term-out');
+    if (!txt || !out) return;
 
-    const sequences = [
+    const seqs = [
       {
-        cmd: 'diagnose --wifi --apartment="Unit 4B"',
-        response: [
-          '> Scanning network interfaces...',
-          '> Signal strength: -62 dBm (Good)',
-          '> Channel congestion detected on 2.4GHz',
-          '<ok>✓ Fix: Switch to 5GHz channel 36</ok>',
+        cmd: 'diagnose --wifi --unit="4B"',
+        lines: [
+          ['>', 'Scanning network interfaces...'],
+          ['>', 'Signal: -62 dBm  Channel: 2.4 GHz'],
+          ['>', 'Congestion detected on channel 6'],
+          ['ok', '✓ Fix: Switch to 5 GHz channel 36'],
         ]
       },
       {
         cmd: 'run --antivirus --deep-scan',
-        response: [
-          '> Initialising threat scan...',
-          '> Scanning 48,291 files...',
-          '> Malware signatures: 0 found',
-          '<ok>✓ System clean. Performance optimised.</ok>',
+        lines: [
+          ['>', 'Initialising threat scan...'],
+          ['>', 'Scanning 48,291 files...'],
+          ['>', 'Malware signatures: 0 found'],
+          ['ok', '✓ System clean. Performance optimised.'],
         ]
       },
       {
-        cmd: 'setup --movein --address="45 Cavill Ave"',
-        response: [
-          '> Configuring NBN connection...',
-          '> Mounting TV — wall type: plasterboard',
-          '> Smart home devices: 6 linked',
-          '<ok>✓ Apartment ready. All systems live.</ok>',
+        cmd: 'setup --movein --address="45 Cavill"',
+        lines: [
+          ['>', 'Configuring NBN connection...'],
+          ['>', 'Mounting TV — wall: plasterboard'],
+          ['>', 'Smart devices linked: 6'],
+          ['ok', '✓ Apartment ready. All systems live.'],
         ]
       },
       {
         cmd: 'max --ask "My PC is running slow"',
-        response: [
-          '> Analysing system profile...',
-          '> RAM usage: 94% (critical)',
-          '> Startup programs: 24 found',
-          '<ok>✓ Recommendation: Run cleanup + RAM check</ok>',
+        lines: [
+          ['>', 'Analysing system profile...'],
+          ['>', 'RAM usage: 94% — critical'],
+          ['>', 'Startup programs: 24 found'],
+          ['ok', '✓ Recommendation: Cleanup + RAM check'],
         ]
       }
     ];
 
-    let seqIdx = 0;
-    let state = 'typing'; // typing | responding | waiting
-    let charIdx = 0;
-    let lineIdx = 0;
-    let timeout;
+    let si = 0, ci = 0, li = 0, tmr;
 
-    function clearOutput() {
-      termOutput.innerHTML = '';
-    }
+    function clearOut() { out.innerHTML = ''; }
 
     function typeChar() {
-      const seq = sequences[seqIdx];
-      if (charIdx < seq.cmd.length) {
-        termCmd.textContent += seq.cmd[charIdx];
-        charIdx++;
-        timeout = setTimeout(typeChar, 35 + Math.random() * 25);
+      const seq = seqs[si];
+      if (ci < seq.cmd.length) {
+        txt.textContent += seq.cmd[ci++];
+        tmr = setTimeout(typeChar, 30 + Math.random() * 30);
       } else {
-        // Done typing, show response
-        state = 'responding';
-        lineIdx = 0;
-        timeout = setTimeout(showNextLine, 500);
+        li = 0;
+        tmr = setTimeout(showLine, 450);
       }
     }
 
-    function showNextLine() {
-      const seq = sequences[seqIdx];
-      if (lineIdx >= seq.response.length) {
-        // Move to next sequence after pause
-        timeout = setTimeout(nextSequence, 2500);
+    function showLine() {
+      const seq = seqs[si];
+      if (li >= seq.lines.length) {
+        tmr = setTimeout(nextSeq, 2400);
         return;
       }
-      const line = seq.response[lineIdx];
-      const div = document.createElement('div');
-      div.style.cssText = 'margin-top:6px; font-size:0.82rem; line-height:1.7;';
-
-      if (line.startsWith('<ok>')) {
-        div.className = 'term-ok';
-        div.textContent = line.replace(/<\/?ok>/g, '');
-      } else {
-        div.style.color = '#8892A4';
-        div.textContent = line;
-      }
-      termOutput.appendChild(div);
-      lineIdx++;
-      timeout = setTimeout(showNextLine, 350);
+      const [type, text] = seq.lines[li++];
+      const d = document.createElement('div');
+      d.className = type === 'ok' ? 'tline tline-ok' : 'tline';
+      d.textContent = text;
+      out.appendChild(d);
+      tmr = setTimeout(showLine, 340);
     }
 
-    function nextSequence() {
-      seqIdx = (seqIdx + 1) % sequences.length;
-      charIdx = 0;
-      lineIdx = 0;
-      termCmd.textContent = '';
-      clearOutput();
-      state = 'typing';
-      timeout = setTimeout(typeChar, 400);
+    function nextSeq() {
+      si = (si + 1) % seqs.length;
+      ci = 0; li = 0;
+      txt.textContent = '';
+      clearOut();
+      tmr = setTimeout(typeChar, 500);
     }
 
-    // Start
-    timeout = setTimeout(typeChar, 800);
+    tmr = setTimeout(typeChar, 900);
   }
 
-  /* ============================================================
-     SCROLL REVEAL
-     ============================================================ */
-  function initReveal() {
-    const reveals = document.querySelectorAll('.reveal');
-    if (!reveals.length) return;
-
-    // Mark for animation — without this class, elements default to visible (no-JS safe)
-    reveals.forEach(el => el.classList.add('reveal-ready'));
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
-        setTimeout(() => el.classList.add('visible'), delay);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.05 });
-
-    reveals.forEach(el => observer.observe(el));
-
-    // Safety fallback: guarantee all content is visible within 2.5s no matter what
-    setTimeout(() => reveals.forEach(el => el.classList.add('visible')), 2500);
-  }
-
-  /* ============================================================
+  /* ---------------------------------------------------------------
      TESTIMONIAL SLIDER
-     ============================================================ */
-  function initTestimonials() {
-    const track = document.getElementById('testi-track');
-    const prev  = document.getElementById('testi-prev');
-    const next  = document.getElementById('testi-next');
-    const dotsContainer = document.getElementById('testi-dots');
+     --------------------------------------------------------------- */
+  function initSlider() {
+    const track = document.getElementById('ttrack');
+    const prev  = document.getElementById('tprev');
+    const next  = document.getElementById('tnext');
+    const dots  = document.getElementById('tdots');
     if (!track) return;
 
-    const cards = track.querySelectorAll('.testi-card');
+    const cards = track.querySelectorAll('.tcard');
     const total = cards.length;
-    let current = 0;
-    let autoTimer;
+    let cur = 0, timer;
 
-    function goTo(idx) {
-      current = (idx + total) % total;
-      track.style.transform = `translateX(-${current * 100}%)`;
-      dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
-        d.classList.toggle('active', i === current);
+    function goTo(i) {
+      cur = (i + total) % total;
+      track.style.transform = `translateX(-${cur * 100}%)`;
+      if (dots) {
+        dots.querySelectorAll('.tdot').forEach((d, idx) => {
+          d.classList.toggle('active', idx === cur);
+        });
+      }
+    }
+
+    function kick() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(cur + 1), 4800);
+    }
+
+    if (prev) prev.addEventListener('click', () => { goTo(cur - 1); kick(); });
+    if (next) next.addEventListener('click', () => { goTo(cur + 1); kick(); });
+
+    if (dots) {
+      dots.querySelectorAll('.tdot').forEach(d => {
+        d.addEventListener('click', () => { goTo(parseInt(d.getAttribute('data-i'), 10)); kick(); });
       });
     }
 
-    function startAuto() {
-      clearInterval(autoTimer);
-      autoTimer = setInterval(() => goTo(current + 1), 5000);
-    }
-
-    if (prev) prev.addEventListener('click', () => { goTo(current - 1); startAuto(); });
-    if (next) next.addEventListener('click', () => { goTo(current + 1); startAuto(); });
-
-    if (dotsContainer) {
-      dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.addEventListener('click', () => { goTo(i); startAuto(); });
-      });
-    }
-
-    // Touch/swipe
-    let touchStartX = 0;
-    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) { goTo(current + (diff > 0 ? 1 : -1)); startAuto(); }
+    // Swipe
+    let sx = 0;
+    track.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+      const diff = sx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) { goTo(cur + (diff > 0 ? 1 : -1)); kick(); }
     }, { passive: true });
 
     goTo(0);
-    startAuto();
+    kick();
   }
 
-  /* ============================================================
+  /* ---------------------------------------------------------------
      BOOKING FORM
-     ============================================================ */
-  function initBookingForm() {
-    const form    = document.getElementById('booking-form');
-    const success = document.getElementById('booking-success');
-    const errDiv  = document.getElementById('form-error');
-    const service = document.getElementById('service');
-    const moveGroup = document.getElementById('move-date-group');
-    const btnText    = document.getElementById('btn-text');
-    const btnLoading = document.getElementById('btn-loading');
-    const submitBtn  = document.getElementById('submit-btn');
+     --------------------------------------------------------------- */
+  function initForm() {
+    const form    = document.getElementById('bform');
+    const success = document.getElementById('bsuccess');
+    const errDiv  = document.getElementById('berr');
+    const sv      = document.getElementById('sv');
+    const mdWrap  = document.getElementById('md-wrap');
+    const bsubmit = document.getElementById('bsubmit');
+    const btext   = document.getElementById('btext');
+    const bload   = document.getElementById('bload');
     if (!form) return;
 
-    // Show/hide move date
-    if (service && moveGroup) {
-      service.addEventListener('change', () => {
-        const val = service.value;
-        moveGroup.style.display = (val === 'movein' || val === 'moveout') ? 'flex' : 'none';
+    // Show move date field for move services
+    if (sv && mdWrap) {
+      sv.addEventListener('change', () => {
+        const v = sv.value;
+        mdWrap.style.display = (v === 'movein' || v === 'moveout') ? 'block' : 'none';
       });
     }
 
-    // Clear error on input
+    // Clear error highlight on input
     form.querySelectorAll('input, select, textarea').forEach(el => {
-      el.addEventListener('input', () => { el.classList.remove('error'); });
+      el.addEventListener('input', () => el.classList.remove('err'));
     });
 
     function validate() {
       let ok = true;
-      const firstName = document.getElementById('firstName');
-      const email     = document.getElementById('email');
-      const svc       = document.getElementById('service');
+      const fn = document.getElementById('fn');
+      const em = document.getElementById('em');
+      const sv2 = document.getElementById('sv');
 
-      [firstName, email, svc].forEach(el => el && el.classList.remove('error'));
+      [fn, em, sv2].forEach(el => el && el.classList.remove('err'));
 
-      if (!firstName || !firstName.value.trim()) {
-        if (firstName) firstName.classList.add('error');
-        ok = false;
+      if (!fn || !fn.value.trim())            { fn && fn.classList.add('err'); ok = false; }
+      if (!em || !em.value.trim())            { em && em.classList.add('err'); ok = false; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) {
+        em && em.classList.add('err'); ok = false;
       }
-      if (!email || !email.value.trim()) {
-        if (email) email.classList.add('error');
-        ok = false;
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        if (email) email.classList.add('error');
-        ok = false;
-      }
-      if (!svc || !svc.value) {
-        if (svc) svc.classList.add('error');
-        ok = false;
-      }
-
+      if (!sv2 || !sv2.value)                 { sv2 && sv2.classList.add('err'); ok = false; }
       return ok;
     }
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       errDiv.style.display = 'none';
 
@@ -427,22 +332,21 @@
         return;
       }
 
-      // Loading state
-      if (btnText) btnText.style.display = 'none';
-      if (btnLoading) btnLoading.style.display = 'inline';
-      if (submitBtn) submitBtn.disabled = true;
+      btext  && (btext.style.display  = 'none');
+      bload  && (bload.style.display  = 'inline');
+      bsubmit && (bsubmit.disabled = true);
 
       const payload = {
-        type: 'booking',
-        firstName:  (document.getElementById('firstName')?.value || '').trim(),
-        lastName:   (document.getElementById('lastName')?.value || '').trim(),
-        email:      (document.getElementById('email')?.value || '').trim(),
-        phone:      (document.getElementById('phone')?.value || '').trim(),
-        service:    (document.getElementById('service')?.value || ''),
-        moveDate:   (document.getElementById('moveDate')?.value || ''),
-        address:    (document.getElementById('address')?.value || '').trim(),
-        message:    (document.getElementById('message')?.value || '').trim(),
-        urgency:    (form.querySelector('input[name="urgency"]:checked')?.value || 'flexible'),
+        type:      'booking',
+        firstName: (document.getElementById('fn')?.value   || '').trim(),
+        lastName:  (document.getElementById('ln')?.value   || '').trim(),
+        email:     (document.getElementById('em')?.value   || '').trim(),
+        phone:     (document.getElementById('ph')?.value   || '').trim(),
+        service:   (document.getElementById('sv')?.value   || ''),
+        moveDate:  (document.getElementById('md')?.value   || ''),
+        address:   (document.getElementById('addr')?.value || '').trim(),
+        message:   (document.getElementById('msg')?.value  || '').trim(),
+        urgency:   (form.querySelector('input[name="urgency"]:checked')?.value || 'flexible'),
       };
 
       try {
@@ -451,55 +355,47 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error('server');
+      } catch { /* show success regardless — UX graceful */ }
 
-        if (res.ok) {
-          form.style.display = 'none';
-          success.style.display = 'flex';
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          throw new Error('Server error');
-        }
-      } catch {
-        // Show success anyway (graceful UX)
-        form.style.display = 'none';
+      form.style.display  = 'none';
+      if (success) {
         success.style.display = 'flex';
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } finally {
-        if (btnText) btnText.style.display = 'inline';
-        if (btnLoading) btnLoading.style.display = 'none';
-        if (submitBtn) submitBtn.disabled = false;
       }
+
+      btext  && (btext.style.display  = 'inline');
+      bload  && (bload.style.display  = 'none');
+      bsubmit && (bsubmit.disabled = false);
     });
   }
 
-  /* ============================================================
+  /* ---------------------------------------------------------------
      FLOATING CHAT BUTTON
-     ============================================================ */
-  function initFloatChat() {
-    const btn  = document.getElementById('float-chat');
-    const hero = document.getElementById('home');
-    if (!btn || !hero) return;
+     --------------------------------------------------------------- */
+  function initFab() {
+    const fab  = document.getElementById('fab');
+    const hero = document.getElementById('top');
+    if (!fab || !hero) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => btn.classList.toggle('visible', !entry.isIntersecting),
-      { threshold: 0.2 }
+    const io = new IntersectionObserver(
+      ([entry]) => fab.classList.toggle('show', !entry.isIntersecting),
+      { threshold: 0.15 }
     );
-    observer.observe(hero);
+    io.observe(hero);
   }
 
-  /* ============================================================
-     INIT
-     ============================================================ */
+  /* ---------------------------------------------------------------
+     BOOT
+     --------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', () => {
-    initParticles();
-    initNavbar();
-    initSmoothScroll();
-    initStatCounters();
+    initCanvas();
+    initNav();
+    initCounters();
     initTerminal();
-    initReveal();
-    initTestimonials();
-    initBookingForm();
-    initFloatChat();
+    initSlider();
+    initForm();
+    initFab();
   });
 
 })();
