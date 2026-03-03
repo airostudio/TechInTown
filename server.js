@@ -317,7 +317,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// ── START ─────────────────────────────────────────────────────────────────────
+// ── START (local dev only — Vercel uses the exported app) ─────────────────────
+if (require.main === module) {
 app.listen(PORT, () => {
   console.log(`
 ╔══════════════════════════════════════════════╗
@@ -330,5 +331,6 @@ app.listen(PORT, () => {
 ╚══════════════════════════════════════════════╝
   `.trim());
 });
+}
 
 module.exports = app;
