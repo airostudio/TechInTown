@@ -1,11 +1,15 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    { "src": "server.js",          "use": "@vercel/node"   },
+    { "src": "*.css",              "use": "@vercel/static" },
+    { "src": "*.html",             "use": "@vercel/static" },
+    { "src": "script.js",          "use": "@vercel/static" },
+    { "src": "ai-technician.js",   "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/api/(.*)", "dest": "/server.js" },
-    { "src": "/(.*)", "dest": "/server.js" }
+    { "src": "/(.*)",     "dest": "/server.js" }
   ]
 }
