@@ -9,8 +9,40 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* DIAGNOSTIC: if you see a red banner at the top, inline CSS works.
+       If styles.css loaded, this banner gets hidden by the real styles. */
+    #css-debug { background:red; color:white; text-align:center; padding:12px;
+      font-family:monospace; font-size:14px; position:fixed; top:0; left:0;
+      right:0; z-index:9999; }
+    #css-debug.loaded { display:none; }
+  </style>
 </head>
 <body>
+
+<div id="css-debug">
+  ⚠ styles.css NOT loaded — checking...
+  <script>
+    // Check if the external stylesheet actually loaded
+    window.addEventListener('load', function() {
+      var d = document.getElementById('css-debug');
+      var bodyBg = getComputedStyle(document.body).backgroundColor;
+      // If styles.css loaded, body bg should be rgb(6,12,24) = #060c18
+      if (bodyBg !== 'rgba(0, 0, 0, 0)' && bodyBg !== 'rgb(255, 255, 255)') {
+        d.className = 'loaded'; // hide banner
+      } else {
+        // Show diagnostic info
+        var sheets = document.styleSheets;
+        var info = 'Stylesheets found: ' + sheets.length + ' | ';
+        for (var i = 0; i < sheets.length; i++) {
+          try { info += sheets[i].href + ' '; } catch(e) { info += '(blocked) '; }
+        }
+        info += '| Page URL: ' + location.href;
+        d.innerHTML = '❌ styles.css FAILED to load<br>' + info;
+      }
+    });
+  </script>
+</div>
 
 <!-- ═══ NAV ═══════════════════════════════════════════════════════════════ -->
 <nav class="nav" id="nav">
